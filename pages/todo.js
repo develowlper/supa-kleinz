@@ -1,11 +1,9 @@
-import Button from 'components/Button';
 import { Navbar } from 'components/Navigation';
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
 
-export default function Home() {
+export default function Todo() {
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>kleinz</title>
         <meta name="description" content="welcome to kleinz" />
