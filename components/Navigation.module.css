@@ -1,9 +1,4 @@
 .navbar {
-  z-index: 1;
-  position: fixed;
-  width: 100vw;
-  top: 0;
-  left: 0;
   padding: 1rem;
   background-color: var(--primary-color);
   color: var(--primary-text);
@@ -24,4 +19,11 @@
 
 .list > :not(:last-child) {
   margin-right: 1rem;
+}
+
+.footer {
+  padding: 0.5rem 1rem;
+  background-color: var(--primary-color);
+  color: var(--primary-text);
+  grid-area: footer;
 }

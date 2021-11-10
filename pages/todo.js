@@ -9,8 +9,6 @@ export default function Todo() {
         <meta name="description" content="welcome to kleinz" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar />
-      <main></main>
     </div>
   );
 }

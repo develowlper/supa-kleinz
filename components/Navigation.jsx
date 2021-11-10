@@ -26,6 +26,10 @@ export const Navbar = () => {
   );
 };
 
+export const Footer = () => {
+  return <footer className={classes.footer}>&copy; 2021 by kleinz</footer>;
+};
+
 export const NavLink = ({ href, label }) => {
   const { pathname } = useRouter();
 
