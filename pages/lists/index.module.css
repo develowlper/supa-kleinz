@@ -1,0 +1,7 @@
+.links {
+  display: flex;
+}
+
+.links:not(:last-child) {
+  margin-right: 1rem;
+}

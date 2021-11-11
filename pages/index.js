@@ -1,15 +1,10 @@
-import Head from 'next/head';
+import Head from 'components/Head';
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
   return (
     <div className={styles.container}>
-      <Head>
-        <title>kleinz</title>
-        <meta name="description" content="welcome to kleinz" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
+      <Head title="kleinz" />
       <div className={styles.content}>
         <div>
           <h1>Welcome to Kleinz</h1>

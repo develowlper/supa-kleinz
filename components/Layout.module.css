@@ -11,6 +11,7 @@
 }
 
 .main {
+  padding: 0 1rem;
   grid-area: main;
   overflow-y: auto;
 }
