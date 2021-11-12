@@ -1,124 +1,138 @@
+import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styleUtils from 'styles/utils.module.css';
-
-const tasks = [
-  {
-    id: 'name',
-    label: 'Namen finden',
-    checked: false,
-  },
-  {
-    id: 'elternzeit',
-    label: 'Entscheidung zur Elternzeit treffen',
-    checked: false,
-  },
-  {
-    id: 'arbeitgeber',
-    label: 'Elternzeit Arbeitgeber mitteilen',
-    checked: false,
-  },
-  {
-    id: 'geburtsvorbereitung',
-    label: 'Anmeldung zum Geburtsvorbereitungskurs',
-    checked: false,
-  },
-  {
-    id: 'krankenhaus',
-    checked: false,
-    label: 'Anmeldung im Krankenhaus',
-  },
-  {
-    id: 'vaterschaft',
-    checked: false,
-    label: 'Vaterschaftsanerkennung',
-  },
-  {
-    id: 'sorgeerklärung',
-    label: 'Sorgerechtserklärung beim Jugendamt',
-    checked: false,
-  },
-  {
-    id: 'mutterschaftsgeld',
-    checked: false,
-    label: 'Antrag auf Mutterschaftsgeld',
-  },
-
-  {
-    id: 'kinderarzt',
-    label: 'Anmeldung bei der Kinderärztin',
-    checked: false,
-  },
-  {
-    id: 'nabelschnurblut',
-    checked: false,
-    label: 'Einlagerung Nabelschnurblut klären',
-  },
-  {
-    id: 'elternzeitantrag',
-    label: 'Antrag auf Elternzeit beim Arbeitgeber',
-    checked: false,
-  },
-  {
-    id: 'elterngeldantrag',
-    label: 'Antrag auf Elterngeld vorbereiten',
-    checked: false,
-  },
-  {
-    id: 'willkommen',
-    checked: false,
-    label: 'Willkommenspaket bei der Stadt Leipzig beantragen',
-  },
-  { id: 'kindergeld', label: 'Kindergeld beantragen', checked: false },
-  {
-    id: 'krankenhaustasche',
-    checked: false,
-    label: 'Krankenhaustasche packen',
-  },
-  {
-    id: 'krankenkasse',
-    label: 'Anmeldung bei der Krankenkasse',
-    checked: false,
-  },
-];
+import { supabase } from 'lib/initSupabase';
+import Authorization from 'components/Authorization';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 export default function List() {
   const router = useRouter();
-
-  const [state, set] = useState(tasks);
-
+  const queryClient = useQueryClient();
   const { id } = router.query;
+  const user = supabase.auth.user();
+
+  const {
+    data: tasks,
+    isLoading,
+    isError,
+  } = useQuery(
+    ['tasks', id],
+    async ({ queryKey }) => {
+      const { error, data } = await supabase
+        .from('todos')
+        .select('*')
+        .eq('list', queryKey[1])
+        .order('id', true);
+
+      if (error) {
+        throw error;
+      }
+      return data;
+    },
+
+    { initialData: [] }
+  );
+
+  const create = useMutation(
+    async (task) => {
+      const { data, error } = await supabase
+        .from('todos')
+        .insert(task)
+        .single();
+
+      if (error) {
+        throw error;
+      }
+      return data;
+    },
+    {
+      onSuccess: () => queryClient.invalidateQueries(['tasks', id]),
+    }
+  );
+
+  const update = useMutation(
+    async ({ id, is_complete }) => {
+      const { data, error } = await supabase
+        .from('todos')
+        .update({ is_complete })
+        .eq('id', id)
+        .single();
+
+      if (error) {
+        throw error;
+      }
+      console.log(data);
+      return data;
+    },
+    {
+      onSuccess: () => queryClient.invalidateQueries(['tasks', id]),
+    }
+  );
+
+  const formik = useFormik({
+    initialValues: {
+      label: '',
+    },
+    onSubmit: async (values, { resetForm }) => {
+      const task = values.label.trim();
+      if (task.length) {
+        create.mutate({ task, user_id: user.id, list: id });
+        resetForm();
+      }
+    },
+  });
 
   const handleChecked = (e) => {
-    set((old) => {
-      const index = old.findIndex((x) => x.id === e.target.id);
-      const res = [...old];
-      res[index] = {
-        ...res[index],
-        checked: e.target.checked,
-      };
-      return res;
+    console.log(e.target);
+    update.mutate({
+      id: Number(e.target.id),
+      is_complete: Boolean(e.target.value),
     });
   };
 
+  if (isLoading) {
+    return 'LOADING...';
+  }
+
+  if (isError) {
+    return 'ERROR';
+  }
+
   return (
-    <div>
+    <Authorization>
       <h1>{id}:</h1>
+      <form onSubmit={formik.handleSubmit}>
+        <label>task:</label>
+        <input
+          type="text"
+          id="label"
+          name="label"
+          placeholder="enter task here"
+          onChange={formik.handleChange}
+          value={formik.values.label}
+        />
+        <button disabled={create.isLoading} type="submit">
+          + create
+        </button>
+        {create.isLoading && <span>SAVING</span>}
+      </form>
       <ul>
-        {state.map(({ label, id: taskId, checked }) => {
+        {tasks.length < 1 && <p>No items</p>}
+        {tasks.map(({ task, id: taskId, is_complete }) => {
           return (
             <li className={styleUtils.removeListStyle} key={taskId}>
               <input
                 id={taskId}
                 type="checkbox"
-                checked={checked}
+                checked={is_complete}
                 onChange={handleChecked}
               />
-              <label htmlFor={taskId}> {label}</label>
+              <label htmlFor={taskId}>{task}</label>
             </li>
           );
         })}
       </ul>
-    </div>
+    </Authorization>
   );
 }
