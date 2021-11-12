@@ -1,5 +1,6 @@
-import classes from './Button.module.css';
+import { styled } from '@stitches/react';
+import { baseStyle } from 'styles/button';
 
-export default function Button({ children }) {
-  return <button className={classes.button}>{children}</button>;
-}
+export default styled('button', {
+  ...baseStyle,
+});

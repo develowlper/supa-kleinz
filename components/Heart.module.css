@@ -14,7 +14,7 @@
   background: #ffe6f2;
   animation-name: backdiv;
   animation-duration: 1s;
-  animation-iteration-count: infinite;
+  animation-iteration-count: 3;
 }
 
 .heart {
@@ -25,7 +25,7 @@
   transform: rotate(-45deg);
   animation-name: beat;
   animation-duration: 1s;
-  animation-iteration-count: infinite;
+  animation-iteration-count: 3;
 }
 
 .heart:after {

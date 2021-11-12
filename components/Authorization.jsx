@@ -26,7 +26,6 @@ export default function Authorization({ children }) {
         <Container>
           <Auth
             supabaseClient={supabase}
-            providers={['github']}
             socialLayout="horizontal"
             socialButtonSize="xlarge"
           />

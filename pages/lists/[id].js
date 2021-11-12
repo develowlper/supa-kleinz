@@ -62,7 +62,6 @@ export default function List() {
       if (error) {
         throw error;
       }
-      console.log(data);
       return data;
     },
     {
@@ -84,10 +83,9 @@ export default function List() {
   });
 
   const handleChecked = (e) => {
-    console.log(e.target);
     update.mutate({
       id: Number(e.target.id),
-      is_complete: Boolean(e.target.value),
+      is_complete: e.target.checked,
     });
   };
 
@@ -100,7 +98,7 @@ export default function List() {
   }
 
   return (
-    <Authorization>
+    <>
       <h1>{id}:</h1>
       <form onSubmit={formik.handleSubmit}>
         <label>task:</label>
@@ -123,6 +121,7 @@ export default function List() {
           return (
             <li className={styleUtils.removeListStyle} key={taskId}>
               <input
+                disabled={update.isLoading}
                 id={taskId}
                 type="checkbox"
                 checked={is_complete}
@@ -133,6 +132,6 @@ export default function List() {
           );
         })}
       </ul>
-    </Authorization>
+    </>
   );
 }
