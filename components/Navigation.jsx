@@ -54,6 +54,10 @@ const A = styled('a', {
   },
 });
 
+const FooterLink = styled('a', {
+  textDecoration: 'underline',
+});
+
 export const Navbar = () => {
   return (
     <Nav>
@@ -80,7 +84,17 @@ export const Navbar = () => {
 };
 
 export const Footer = () => {
-  return <Foot>&copy; 2021 by kleinz</Foot>;
+  return (
+    <Foot>
+      Kleinz is an open-source project maintained by{' '}
+      <FooterLink
+        href="https://github.com/hello-sunshine-dot-dev"
+        target="_black"
+      >
+        hello-sunshine.dev
+      </FooterLink>
+    </Foot>
+  );
 };
 
 export const NavLink = ({ href, label }) => {

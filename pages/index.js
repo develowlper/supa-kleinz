@@ -1,19 +1,25 @@
+import { styled } from '@stitches/react';
+import Birthday from 'components/Birthday';
 import Head from 'components/Head';
-import styles from '../styles/Home.module.css';
+
+const Container = styled('div', {
+  display: 'flex',
+  justifyContent: 'center',
+  padding: '0 1rem',
+});
+
+const Content = styled('div', {
+  maxWidth: 800,
+});
 
 export default function Home() {
   return (
-    <div className={styles.container}>
+    <>
       <Head title="kleinz" />
-      <div className={styles.content}>
-        <div>
+      <Container>
+        <Content>
           <h1>Welcome to Kleinz</h1>
-          <p>
-            Kleinz is an open-source project maintained by
-            <a href="https://github.com/hello-sunshine-dot-dev" target="_black">
-              hello-sunshine.dev
-            </a>
-          </p>
+          <Birthday />
           <h2>Roadmap:</h2>
           <ul>v1: Q2/22</ul>
           <h2>Release Notes:</h2>
@@ -54,8 +60,8 @@ export default function Home() {
               </li>
             </ul>
           </h3>
-        </div>
-      </div>
-    </div>
+        </Content>
+      </Container>
+    </>
   );
 }
