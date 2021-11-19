@@ -1,5 +1,5 @@
 import { styled } from '@stitches/react';
-import Birthday from 'components/Birthday';
+
 import Head from 'components/Head';
 
 const Container = styled('div', {
@@ -20,6 +20,7 @@ export default function Home() {
         <Content>
           <h1>Welcome to Kleinz</h1>
           {/* <Birthday /> */}
+
           <h2>Roadmap:</h2>
           <ul>v1: Q2/22</ul>
           <h2>Release Notes:</h2>
