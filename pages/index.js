@@ -19,7 +19,7 @@ export default function Home() {
       <Container>
         <Content>
           <h1>Welcome to Kleinz</h1>
-          <Birthday />
+          {/* <Birthday /> */}
           <h2>Roadmap:</h2>
           <ul>v1: Q2/22</ul>
           <h2>Release Notes:</h2>
