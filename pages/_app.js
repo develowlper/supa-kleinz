@@ -8,22 +8,18 @@ import '../styles/globals.css';
 import { useState } from 'react';
 import Authorization from 'components/Authorization';
 
-function MyApp({ Component, pageProps }) {
+export default function SupaKleinz({ Component, pageProps }) {
   const [queryClient] = useState(() => new QueryClient());
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
-        <Auth.UserContextProvider supabaseClient={supabase}>
-          <Authorization>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </Authorization>
-        </Auth.UserContextProvider>
+        <Authorization>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </Authorization>
         <ReactQueryDevtools initialIsOpen={false} />
       </Hydrate>
     </QueryClientProvider>
   );
 }
-
-export default MyApp;

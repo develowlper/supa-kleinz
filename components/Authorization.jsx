@@ -1,6 +1,7 @@
 import { supabase } from 'lib/initSupabase';
 import { Auth as SupaAuth } from '@supabase/ui';
 import { styled } from '@stitches/react';
+import { useIsAuthenticated, useUser } from 'stores/authorization';
 
 const Container = styled('div', {
   display: 'grid',
@@ -18,11 +19,11 @@ const Auth = styled(SupaAuth, {
 });
 
 export default function Authorization({ children }) {
-  const { user } = SupaAuth.useUser();
+  const isAuthenticated = useIsAuthenticated();
 
   return (
     <>
-      {!user && (
+      {!isAuthenticated && (
         <Container>
           <Auth
             supabaseClient={supabase}
@@ -31,7 +32,7 @@ export default function Authorization({ children }) {
           />
         </Container>
       )}
-      {user && children}
+      {isAuthenticated && children}
     </>
   );
 }
