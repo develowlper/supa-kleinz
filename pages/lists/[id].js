@@ -1,16 +1,14 @@
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+
 import styleUtils from 'styles/utils.module.css';
 import { supabase } from 'lib/initSupabase';
-import Authorization from 'components/Authorization';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 export default function List() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { id } = router.query;
-  const user = supabase.auth.user();
 
   const {
     data: tasks,
@@ -75,6 +73,7 @@ export default function List() {
     },
     onSubmit: async (values, { resetForm }) => {
       const task = values.label.trim();
+      const user = supabase.auth.user();
       if (task.length) {
         create.mutate({ task, user_id: user.id, list: id });
         resetForm();

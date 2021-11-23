@@ -1,7 +1,7 @@
 import { supabase } from 'lib/initSupabase';
 import { Auth as SupaAuth } from '@supabase/ui';
 import { styled } from '@stitches/react';
-import { useIsAuthenticated, useUser } from 'stores/authorization';
+import { useIsAuthenticated } from 'stores/authorization';
 
 const Container = styled('div', {
   display: 'grid',
