@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/develowlper/supa-kleinz/compare/v0.1.1...v0.1.2) (2021-11-24)
+
+
+### Features
+
+* custom sign in page ([df7c8f5](https://github.com/develowlper/supa-kleinz/commit/df7c8f5678e56332e1b6a1458682448e2c762d22))
+* simplified user handling ([e347272](https://github.com/develowlper/supa-kleinz/commit/e3472725890a5a086420bc0a79c9d67f4ff4b2d7))
+* use zustand for auth ([cf7fdfa](https://github.com/develowlper/supa-kleinz/commit/cf7fdfa33cf3637f616082d0cdc7d28f9e220359))
+
 ### 0.1.1 (2021-11-19)
 
 
