@@ -1,6 +1,5 @@
 import Link from 'next/link';
 
-import buttonStyles from 'components/Button.module.css';
 import { useRouter } from 'next/router';
 import clsx from 'clsx';
 import { supabase } from 'lib/initSupabase';
