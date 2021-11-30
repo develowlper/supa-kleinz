@@ -71,7 +71,7 @@ export default function Signin() {
         </InputGroup>
 
         <InputGroup>
-          <label htmlFor="email">Password</label>
+          <label htmlFor="password">Password</label>
           <TextField
             id="password"
             name="password"
