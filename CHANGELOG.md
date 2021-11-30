@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.4](https://github.com/develowlper/supa-kleinz/compare/v0.1.3...v0.1.4) (2021-11-30)
+
+
+### Features
+
+* component for text input ([b4de795](https://github.com/develowlper/supa-kleinz/commit/b4de795ea35ccf7bb46702a07107d2cf31d0800a))
+* fadeIn Animation ([f3d1f2d](https://github.com/develowlper/supa-kleinz/commit/f3d1f2d10fccb3f3c01bb7321ad1a1f873f95166))
+
+
+### Bug Fixes
+
+* form not styled ([d55f6de](https://github.com/develowlper/supa-kleinz/commit/d55f6de0c8b518e1935b848fef8add8b7561ce9b))
+* layout with stitches ([714d2b4](https://github.com/develowlper/supa-kleinz/commit/714d2b46de9d8ccf49049fc228a4de1f662be13f))
+* text field too large ([8e91dbe](https://github.com/develowlper/supa-kleinz/commit/8e91dbea245dc421750513ddd4e15e7197efe7d4))
+
 ### [0.1.3](https://github.com/develowlper/supa-kleinz/compare/v0.1.2...v0.1.3) (2021-11-30)
 
 
