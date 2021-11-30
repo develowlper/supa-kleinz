@@ -1,8 +1,10 @@
 import { styled } from '@stitches/react';
 import Button from 'components/Button';
+import TextField from 'components/TextField';
 import { useFormik } from 'formik';
 import { supabase } from 'lib/initSupabase';
 import { useRouter } from 'next/router';
+import { useCallback } from 'react';
 import { useMutation } from 'react-query';
 
 const Container = styled('div', {
@@ -30,23 +32,29 @@ const InputGroup = styled('div', {
   gridRowGap: '0.5rem',
 });
 
-const TextField = styled('input', {
-  fontSize: '1.2rem',
-  borderColor: 'var(--primary-color)',
-  borderWidth: '2px',
-  padding: '0.5rem 0.75rem',
-  '&:focus': {
-    outline: '2px solid var(--secondary-color)',
-  },
+const ErrorMessage = styled('span', {
+  color: 'var(--error-color)',
+  animationName: 'fadeIn',
+  animationDuration: '0.5s',
+  transformOrigin: 'top',
 });
 
 export default function Signin() {
   const router = useRouter();
-  const { mutate } = useMutation((values) => supabase.auth.signIn(values), {
-    onSuccess: () => {
-      router.replace(router.query.returnUrl || '/');
+  const { mutate, isLoading, isError, error, reset } = useMutation(
+    async (values) => {
+      const { data, error } = await supabase.auth.signIn(values);
+      if (error) {
+        throw error;
+      }
+      return data;
     },
-  });
+    {
+      onSuccess: () => {
+        router.replace(router.query.returnUrl || '/');
+      },
+    }
+  );
 
   const formik = useFormik({
     initialValues: {
@@ -55,6 +63,11 @@ export default function Signin() {
     },
     onSubmit: mutate,
   });
+
+  const handleReset = useCallback(() => {
+    formik.resetForm();
+    reset();
+  }, [formik, reset]);
 
   return (
     <Container>
@@ -69,7 +82,6 @@ export default function Signin() {
             value={formik.values.email}
           />
         </InputGroup>
-
         <InputGroup>
           <label htmlFor="password">Password</label>
           <TextField
@@ -80,7 +92,12 @@ export default function Signin() {
             value={formik.values.password}
           />
         </InputGroup>
-        <Button type="submit">{'> signin'}</Button>
+        <div style={{ height: '38px' }}>
+          {isError && <ErrorMessage>{error.message}</ErrorMessage>}
+        </div>
+        <Button disabled={isLoading} type="submit">
+          {'> signin'}
+        </Button>
       </Form>
     </Container>
   );

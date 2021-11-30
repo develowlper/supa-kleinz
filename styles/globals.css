@@ -6,8 +6,18 @@
   --secondary-color: #77b6ea;
   --primary-text: white;
   --warning-color: #ffc857;
-  --supabase-color: #24b47e;
+  --success-color: #24b47e;
   --back: #ffe6f2;
+  --error-color: #cc213d;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 html,
