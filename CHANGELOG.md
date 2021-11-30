@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.3](https://github.com/develowlper/supa-kleinz/compare/v0.1.2...v0.1.3) (2021-11-30)
+
+
+### Bug Fixes
+
+* wrong label on password field ([6f194b0](https://github.com/develowlper/supa-kleinz/commit/6f194b02c78735099582e6728ef108f680ddbf69))
+
 ### [0.1.2](https://github.com/develowlper/supa-kleinz/compare/v0.1.1...v0.1.2) (2021-11-24)
 
 
