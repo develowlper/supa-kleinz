@@ -4,6 +4,17 @@ import { useRouter } from 'next/router';
 import styleUtils from 'styles/utils.module.css';
 import { supabase } from 'lib/initSupabase';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { styled } from '@stitches/react';
+import TextField from 'components/TextField';
+import Button from 'components/Button';
+
+const Form = styled('form', {
+  display: 'flex',
+  alignItems: 'center',
+  ':not(:last-child)': {
+    marginRight: '0.5rem',
+  },
+});
 
 export default function List() {
   const router = useRouter();
@@ -99,9 +110,9 @@ export default function List() {
   return (
     <>
       <h1>{id}:</h1>
-      <form onSubmit={formik.handleSubmit}>
+      <Form onSubmit={formik.handleSubmit}>
         <label>task:</label>
-        <input
+        <TextField
           type="text"
           id="label"
           name="label"
@@ -109,11 +120,11 @@ export default function List() {
           onChange={formik.handleChange}
           value={formik.values.label}
         />
-        <button disabled={create.isLoading} type="submit">
+        <Button disabled={create.isLoading} type="submit">
           + create
-        </button>
+        </Button>
         {create.isLoading && <span>SAVING</span>}
-      </form>
+      </Form>
       <ul>
         {tasks.length < 1 && <p>No items</p>}
         {tasks.map(({ task, id: taskId, is_complete }) => {
