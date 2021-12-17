@@ -1,5 +1,3 @@
-import { Auth as SupaAuth } from '@supabase/ui';
-import { styled } from '@stitches/react';
 import { useIsAuthenticated } from 'stores/authorization';
 import AccessDenied from './AccessDenied';
 import { useRouter } from 'next/router';

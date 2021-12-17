@@ -1,6 +1,4 @@
 import Layout from 'components/Layout';
-import { Auth } from '@supabase/ui';
-import { supabase } from '../lib/initSupabase';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 

@@ -1,26 +1,12 @@
-import { styled } from '@stitches/react';
-
 import Head from 'components/Head';
-
-const Container = styled('div', {
-  display: 'flex',
-  justifyContent: 'center',
-  padding: '0 1rem',
-});
-
-const Content = styled('div', {
-  maxWidth: 800,
-});
 
 export default function Home() {
   return (
     <>
       <Head title="kleinz" />
-      <Container>
-        <Content>
+      <div>
+        <div>
           <h1>Welcome to Kleinz</h1>
-          {/* <Birthday /> */}
-
           <h2>Roadmap:</h2>
           <ul>v1: Q2/22</ul>
           <h2>Release Notes:</h2>
@@ -61,8 +47,8 @@ export default function Home() {
               </li>
             </ul>
           </h3>
-        </Content>
-      </Container>
+        </div>
+      </div>
     </>
   );
 }

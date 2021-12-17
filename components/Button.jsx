@@ -1,6 +1,3 @@
-import { styled } from '@stitches/react';
-import { baseStyle } from 'styles/button';
-
-export default styled('button', {
-  ...baseStyle,
-});
+export default function Button({ props }) {
+  return <button {...props} />;
+}

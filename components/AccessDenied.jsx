@@ -1,16 +1,5 @@
-import { styled } from '@stitches/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { baseStyle } from 'styles/button';
-
-const A = styled('a', baseStyle);
-
-const Container = styled('div', {
-  display: 'grid',
-  placeItems: 'center',
-  height: '100vh',
-  backgroundColor: 'var(--back)',
-});
 
 export default function AccessDenied() {
   const router = useRouter();
@@ -20,10 +9,10 @@ export default function AccessDenied() {
       : '';
 
   return (
-    <Container>
+    <div>
       <Link href={`/signin${returnUrl}`} passHref>
-        <A> {'Please login to access this page >'}</A>
+        <a>{'Please login to access this page >'}</a>
       </Link>
-    </Container>
+    </div>
   );
 }
