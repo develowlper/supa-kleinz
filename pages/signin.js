@@ -6,6 +6,15 @@ import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { useMutation } from 'react-query';
 
+const formFields = [
+  { label: 'Email Adress', key: 'email', type: 'email' },
+  {
+    label: 'Password',
+    key: 'password',
+    type: 'password',
+  },
+];
+
 export default function Signin() {
   const router = useRouter();
   const { mutate, isLoading, isError, error, reset } = useMutation(
@@ -37,28 +46,23 @@ export default function Signin() {
   }, [formik, reset]);
 
   return (
-    <div>
-      <form onSubmit={formik.handleSubmit}>
-        <div>
-          <label htmlFor="email">Email Address</label>
-          <TextField
-            id="email"
-            name="email"
-            type="email"
-            onChange={formik.handleChange}
-            value={formik.values.email}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <TextField
-            id="password"
-            name="password"
-            type="password"
-            onChange={formik.handleChange}
-            value={formik.values.password}
-          />
-        </div>
+    <div className="font-mono p-2 flex h-screen justify-center items-center bg-fuchsia-100">
+      <form
+        className="w-[400px] border-2 p-4 border-fuchsia-900 grid grid-rows-3 grid-cols-1 gap-3"
+        onSubmit={formik.handleSubmit}
+      >
+        {formFields.map(({ label, key, type }) => (
+          <div className="grid grid-rows-2 grid-cols-1 gap-1" key={key}>
+            <label htmlFor="email">{label}</label>
+            <TextField
+              id={key}
+              name={key}
+              type={type}
+              onChange={formik.handleChange}
+              value={formik.values[key]}
+            />
+          </div>
+        ))}
         <div style={{ height: '38px' }}>
           {isError && <span>{error.message}</span>}
         </div>

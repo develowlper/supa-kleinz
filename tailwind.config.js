@@ -5,6 +5,11 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      sans: ['Inter', 'sans-serif'],
+      mono: ['Source Code Pro', 'monospace'],
+      serif: ['Poiret One', 'serif'],
+    },
   },
   plugins: [],
 };
