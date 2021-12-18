@@ -99,7 +99,7 @@ export default function List() {
   }
 
   return (
-    <div className="container mx-auto py-2 flex flex-col gap-3">
+    <div className="container mx-auto py-2 grid grid-cols-1 gap-3">
       <h1 className="uppercase text-2xl">{id}</h1>
       <form className="flex gap-2 items-center" onSubmit={formik.handleSubmit}>
         <TextField

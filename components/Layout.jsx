@@ -10,10 +10,10 @@ export default function Layout({ children, ignore = ['/signin'] }) {
   }
 
   return (
-    <div>
+    <div className="flex flex-col h-screen">
       <Navbar />
       {/* <Heart /> */}
-      <main className="bg-fuchsia-100 h-full">{children}</main>
+      <main className="bg-fuchsia-100 flex-1">{children}</main>
       <Footer />
     </div>
   );

@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { supabase } from 'lib/initSupabase';
 
 import Button from './Button';
+import { useIsAuthenticated } from 'stores/authorization';
 
 const links = [
   { href: '/', label: 'Home' },
@@ -32,28 +33,36 @@ export const NavLink = ({ href, label }) => {
 };
 
 export const Navbar = () => {
+  const isAuthenticated = useIsAuthenticated();
+
+  const router = useRouter();
+  const returnUrl =
+    router.asPath !== '/'
+      ? `?returnUrl=${encodeURIComponent(router.asPath)}`
+      : '';
+
   return (
-    <nav className="px-6 py-3 flex justify-between bg-fuchsia-900">
+    <nav className="px-6 py-3 flex justify-between items-center bg-fuchsia-900">
+      <h1 className="text-white text-xl uppercase">Supa Kleinz</h1>
       <ul className="flex gap-2 items-center">
         {links.map((props) => {
           return (
             <li key={props.href}>
               <NavLink {...props} />
-              {/* <Link passHref href={props.href}>
-                <Button link>{props.label}</Button>
-              </Link> */}
             </li>
           );
         })}
       </ul>
       <ul>
-        <Button
-          onClick={async () => {
-            await supabase.auth.signOut();
-          }}
-        >
-          {'Signout'}
-        </Button>
+        <li>
+          <Button
+            onClick={async () => {
+              await supabase.auth.signOut();
+            }}
+          >
+            {'Signout'}
+          </Button>
+        </li>
       </ul>
     </nav>
   );

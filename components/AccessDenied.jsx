@@ -1,18 +1,13 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Button from './Button';
 
 export default function AccessDenied() {
-  const router = useRouter();
-  const returnUrl =
-    router.asPath !== '/'
-      ? `?returnUrl=${encodeURIComponent(router.asPath)}`
-      : '';
-
   return (
-    <div>
-      <Link href={`/signin${returnUrl}`} passHref>
-        <a>{'Please login to access this page >'}</a>
-      </Link>
+    <div className="bg-fuchsia-100 flex justify-center items-center h-full">
+      <h2 className="text-lg" link>
+        {'Please signin to access this page'}
+      </h2>
     </div>
   );
 }

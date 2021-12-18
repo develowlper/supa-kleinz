@@ -1,6 +1,8 @@
-import { useIsAuthenticated } from 'stores/authorization';
-import AccessDenied from './AccessDenied';
+import { useIsAuthenticated, useSession } from 'stores/authorization';
+
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import useSigninUrl from 'hooks/useSigninUrl';
 
 const useIsPublicRoute = () => {
   const router = useRouter();
@@ -10,12 +12,14 @@ const useIsPublicRoute = () => {
 
 export default function Authorization({ children }) {
   const isAuthenticated = useIsAuthenticated();
-
+  const router = useRouter();
   const isPublicRoute = useIsPublicRoute();
-  switch (true) {
-    case isPublicRoute || isAuthenticated:
-      return children;
-    default:
-      return <AccessDenied />;
-  }
+  const signinUrl = useSigninUrl();
+  useEffect(() => {
+    if (!isAuthenticated && !isPublicRoute) {
+      router.replace(signinUrl);
+    }
+  }, [isAuthenticated, isPublicRoute, router, signinUrl]);
+
+  return children;
 }

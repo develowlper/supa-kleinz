@@ -21,3 +21,7 @@ export const useUser = () => {
   const session = useStore(sessionSelector);
   return session?.user;
 };
+
+export const useSession = () => {
+  return useStore(sessionSelector);
+};
