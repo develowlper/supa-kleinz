@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.5](https://github.com/develowlper/supa-kleinz/compare/v0.1.4...v0.1.5) (2021-12-18)
+
+
+### Features
+
+* base styling with tailwind ([8adff5f](https://github.com/develowlper/supa-kleinz/commit/8adff5fb5dd4a410ca48baffb63b4b336c6b2b9e))
+* styled with tailwind ([1394653](https://github.com/develowlper/supa-kleinz/commit/13946539650e1bcd837ef69a39dadd23590bda7b))
+
 ### [0.1.4](https://github.com/develowlper/supa-kleinz/compare/v0.1.3...v0.1.4) (2021-11-30)
 
 
