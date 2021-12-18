@@ -4,7 +4,9 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      boxShadow: { hover: '0.25rem 0.25rem' },
+    },
     fontFamily: {
       sans: ['Inter', 'sans-serif'],
       mono: ['Source Code Pro', 'monospace'],

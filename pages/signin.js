@@ -48,11 +48,11 @@ export default function Signin() {
   return (
     <div className="font-mono p-2 flex h-screen justify-center items-center bg-fuchsia-100">
       <form
-        className="w-[400px] border-2 p-4 border-fuchsia-900 grid grid-rows-3 grid-cols-1 gap-3"
+        className="w-[400px] border-2 p-4 border-fuchsia-900 bg-white flex flex-col gap-5"
         onSubmit={formik.handleSubmit}
       >
         {formFields.map(({ label, key, type }) => (
-          <div className="grid grid-rows-2 grid-cols-1 gap-1" key={key}>
+          <div className="grid grid-rows-2 grid-cols-1" key={key}>
             <label htmlFor="email">{label}</label>
             <TextField
               id={key}
@@ -63,11 +63,9 @@ export default function Signin() {
             />
           </div>
         ))}
-        <div style={{ height: '38px' }}>
-          {isError && <span>{error.message}</span>}
-        </div>
-        <Button disabled={isLoading} type="submit">
-          {'> signin'}
+        {isError && <span className="text-red-500">{error.message}</span>}
+        <Button className="row-span-4" disabled={isLoading} type="submit">
+          {'Signin'}
         </Button>
       </form>
     </div>
