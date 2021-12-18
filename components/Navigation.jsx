@@ -11,6 +11,7 @@ const links = [
   { href: '/', label: 'Home' },
   { href: '/lists/todo', label: 'Todo' },
   { href: '/lists/tobuy', label: 'Tobuy' },
+  { href: '/names', label: 'Names' },
 ];
 
 export const NavLink = ({ href, label }) => {
