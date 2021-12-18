@@ -12,8 +12,8 @@ export default function Layout({ children, ignore = ['/signin'] }) {
   return (
     <div>
       <Navbar />
-      <Heart />
-      <main>{children}</main>
+      {/* <Heart /> */}
+      <main className="bg-fuchsia-100 h-full">{children}</main>
       <Footer />
     </div>
   );

@@ -4,9 +4,9 @@ export default function Home() {
   return (
     <>
       <Head title="kleinz" />
-      <div>
+      <div className="container mx-auto py-2">
         <div>
-          <h1>Welcome to Kleinz</h1>
+          <h1 className="text-3xl">Welcome to Kleinz</h1>
           <h2>Roadmap:</h2>
           <ul>v1: Q2/22</ul>
           <h2>Release Notes:</h2>

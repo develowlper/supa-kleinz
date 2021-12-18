@@ -1,7 +1,6 @@
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 
-import styleUtils from 'styles/utils.module.css';
 import { supabase } from 'lib/initSupabase';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
@@ -100,10 +99,9 @@ export default function List() {
   }
 
   return (
-    <>
-      <h1>{id}:</h1>
-      <form onSubmit={formik.handleSubmit}>
-        <label>task:</label>
+    <div className="container mx-auto py-2 flex flex-col gap-3">
+      <h1 className="uppercase text-2xl">{id}</h1>
+      <form className="flex gap-2 items-center" onSubmit={formik.handleSubmit}>
         <TextField
           type="text"
           id="label"
@@ -113,7 +111,7 @@ export default function List() {
           value={formik.values.label}
         />
         <Button disabled={create.isLoading} type="submit">
-          + create
+          Create
         </Button>
         {create.isLoading && <span>SAVING</span>}
       </form>
@@ -121,8 +119,9 @@ export default function List() {
         {tasks.length < 1 && <p>No items</p>}
         {tasks.map(({ task, id: taskId, is_complete }) => {
           return (
-            <li className={styleUtils.removeListStyle} key={taskId}>
+            <li className="flex items-center gap-2" key={taskId}>
               <input
+                className="form-checkbox h-4 w-4 text-teal-500"
                 disabled={update.isLoading}
                 id={taskId}
                 type="checkbox"
@@ -134,6 +133,6 @@ export default function List() {
           );
         })}
       </ul>
-    </>
+    </div>
   );
 }

@@ -13,5 +13,5 @@ module.exports = {
       serif: ['Poiret One', 'serif'],
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/forms')],
 };
