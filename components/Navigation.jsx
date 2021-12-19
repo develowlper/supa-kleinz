@@ -43,7 +43,7 @@ export const Navbar = () => {
       : '';
 
   return (
-    <nav className="px-6 py-3 flex justify-between items-center bg-fuchsia-900">
+    <nav className="px-6 py-3 flex flex-wrap justify-between items-center bg-fuchsia-900 gap-3">
       <h1 className="text-white text-xl uppercase">Supa Kleinz</h1>
       <ul className="flex gap-2 items-center">
         {links.map((props) => {

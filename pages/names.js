@@ -59,7 +59,7 @@ export default function Names(props) {
     },
   });
   return (
-    <div className="container mx-auto pt-4 mb-2 grid grid-cols-1 gap-3">
+    <div className="grid grid-cols-1 gap-3">
       <h1 className="uppercase text-2xl">Names</h1>
       <form className="flex gap-2 items-center" onSubmit={formik.handleSubmit}>
         <TextField

@@ -11,7 +11,9 @@ export default function Layout({ children, ignore = ['/signin'] }) {
   return (
     <div className="flex flex-col h-screen">
       <Navbar />
-      <main className="bg-fuchsia-100 flex-1">{children}</main>
+      <main className="bg-fuchsia-100 flex-1">
+        <div className="container mx-auto pt-4 px-2 pb-2">{children}</div>
+      </main>
       <Footer />
     </div>
   );
