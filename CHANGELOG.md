@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.7](https://github.com/develowlper/supa-kleinz/compare/v0.1.6...v0.1.7) (2021-12-19)
+
+
+### Bug Fixes
+
+* broken mobiel layout ([d5ccf3f](https://github.com/develowlper/supa-kleinz/commit/d5ccf3f843f0c345c7a5303420d81cb42f24e322))
+* spacing on pages ([dc73946](https://github.com/develowlper/supa-kleinz/commit/dc73946c8d1dc1a23ca1a9f71d6b6da3d3ca129c))
+
 ### [0.1.6](https://github.com/develowlper/supa-kleinz/compare/v0.1.5...v0.1.6) (2021-12-18)
 
 
