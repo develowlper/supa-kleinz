@@ -49,7 +49,7 @@ export const Navbar = () => {
       : '';
 
   return (
-    <nav className="sticky top-0 left-0 p-3 row-span-full shadow-sm bg-white">
+    <nav className="sticky top-0 left-0 bottom-0 right-0 p-3 row-span-full shadow-md bg-white">
       <ul className="md:flex gap-5 overflow-hidden justify-center">
         {links.map((props) => {
           return (

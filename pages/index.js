@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <>
       <Head title="kleinz" />
-      <div>
+      <div className="prose-sm bg-white py-3 px-6 my-4 shadow-md border">
         <h1 className="text-3xl">Welcome to Kleinz</h1>
         <h2>Roadmap:</h2>
         <ul>v1: Q2/22</ul>

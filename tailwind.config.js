@@ -20,5 +20,5 @@ module.exports = {
       serif: ['Poiret One', 'serif'],
     },
   },
-  plugins: [require('@tailwindcss/forms')],
+  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
 };

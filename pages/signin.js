@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import { supabase } from 'lib/initSupabase';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
+import { RiLockUnlockLine } from 'react-icons/ri';
 import { useMutation } from 'react-query';
 
 const formFields = [
@@ -46,9 +47,9 @@ export default function Signin() {
   }, [formik, reset]);
 
   return (
-    <div className="font-mono p-2 flex h-screen justify-center items-center bg-fuchsia-100">
+    <div className="font-mono p-2 flex h-screen justify-center items-center">
       <form
-        className="w-[400px] border-2 p-4 border-fuchsia-900 bg-white flex flex-col gap-5"
+        className="w-[400px] p-4 border border-fuchsia-400 shadow-md bg-fuchsia-100 flex flex-col gap-5"
         onSubmit={formik.handleSubmit}
       >
         {formFields.map(({ label, key, type }) => (
@@ -64,8 +65,13 @@ export default function Signin() {
           </div>
         ))}
         {isError && <span className="text-red-500">{error.message}</span>}
-        <Button className="row-span-4" disabled={isLoading} type="submit">
+        <Button
+          className="row-span-4 flex gap-2 items-center justify-center"
+          disabled={isLoading}
+          type="submit"
+        >
           {'Signin'}
+          <RiLockUnlockLine />
         </Button>
       </form>
     </div>

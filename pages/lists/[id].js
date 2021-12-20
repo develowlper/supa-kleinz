@@ -91,10 +91,6 @@ export default function List() {
     });
   };
 
-  if (isLoading) {
-    return 'LOADING...';
-  }
-
   if (isError) {
     return 'ERROR';
   }
@@ -118,24 +114,64 @@ export default function List() {
         </Button>
         {create.isLoading && <span>SAVING</span>}
       </form>
-      <ul>
-        {tasks.length < 1 && <p>No items</p>}
-        {tasks.map(({ task, id: taskId, is_complete }) => {
-          return (
-            <li className="flex items-center gap-2" key={taskId}>
-              <input
-                className="form-checkbox h-4 w-4 text-emerald-500"
-                disabled={update.isLoading}
-                id={taskId}
-                type="checkbox"
-                checked={is_complete}
-                onChange={handleChecked}
-              />
-              <label htmlFor={taskId}>{task}</label>
-            </li>
-          );
-        })}
-      </ul>
+      <div className="md:flex md:space-x-4">
+        <div className="flex-1 shadow-md">
+          <div className="h-full p-2 border bg-white">
+            <h2 className="text-lg px-4 py-2">Open</h2>
+            <ul className="space-y-2">
+              {tasks.length < 1 && <p>No items</p>}
+              {tasks
+                .filter((x) => !x.is_complete)
+                .map(({ task, id: taskId, is_complete }) => {
+                  return (
+                    <li
+                      className="border px-4 py-2 bg-white shadow-sm flex items-center gap-2"
+                      key={taskId}
+                    >
+                      <input
+                        className="form-checkbox h-4 w-4 text-emerald-500"
+                        disabled={update.isLoading}
+                        id={taskId}
+                        type="checkbox"
+                        checked={is_complete}
+                        onChange={handleChecked}
+                      />
+                      <label htmlFor={taskId}>{task}</label>
+                    </li>
+                  );
+                })}
+            </ul>
+          </div>
+        </div>
+        <div className="flex-1">
+          <div className="h-full p-2 border bg-white shadow-md">
+            <h2 className="text-lg px-4 py-2">Done</h2>
+            <ul className="space-y-2">
+              {tasks.length < 1 && <p>No items</p>}
+              {tasks
+                .filter((x) => x.is_complete)
+                .map(({ task, id: taskId, is_complete }) => {
+                  return (
+                    <li
+                      className="border px-4 py-2 bg-white shadow-sm flex items-center gap-2"
+                      key={taskId}
+                    >
+                      <input
+                        className="form-checkbox h-4 w-4 text-emerald-500"
+                        disabled={update.isLoading}
+                        id={taskId}
+                        type="checkbox"
+                        checked={is_complete}
+                        onChange={handleChecked}
+                      />
+                      <label htmlFor={taskId}>{task}</label>
+                    </li>
+                  );
+                })}
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
