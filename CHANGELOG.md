@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.8](https://github.com/develowlper/supa-kleinz/compare/v0.1.7...v0.1.8) (2021-12-20)
+
+
+### Features
+
+* new layout ([5b0953c](https://github.com/develowlper/supa-kleinz/commit/5b0953c31ba7b88a4fbaba02b79a59fd7f179966))
+
 ### [0.1.7](https://github.com/develowlper/supa-kleinz/compare/v0.1.6...v0.1.7) (2021-12-19)
 
 
