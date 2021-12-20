@@ -6,6 +6,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import TextField from 'components/TextField';
 import Button from 'components/Button';
+import Head from 'next/head';
 
 export default function List() {
   const router = useRouter();
@@ -99,8 +100,10 @@ export default function List() {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-3">
-      <h1 className="uppercase text-2xl">{id}</h1>
+    <div className="py-3 px-2 flex flex-col gap-3">
+      <Head>
+        <title>{`${id}`}</title>
+      </Head>
       <form className="flex gap-2 items-center" onSubmit={formik.handleSubmit}>
         <TextField
           type="text"
@@ -121,7 +124,7 @@ export default function List() {
           return (
             <li className="flex items-center gap-2" key={taskId}>
               <input
-                className="form-checkbox h-4 w-4 text-teal-500"
+                className="form-checkbox h-4 w-4 text-emerald-500"
                 disabled={update.isLoading}
                 id={taskId}
                 type="checkbox"

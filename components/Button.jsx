@@ -15,9 +15,10 @@ export default forwardRef(function Button(
   const Component = link ? a : button;
   return (
     <Component
+      tabIndex="0"
       ref={ref}
       className={clsx(
-        'block shadow-inner px-3 py-1 bg-fuchsia-500 focus:text-teal-900 focus:shadow-hover focus:outline-none focus:shadow-teal-500 hover:text-teal-900 hover:shadow-hover hover:shadow-teal-500',
+        'block shadow-md px-4 py-1 border border-fuchsia-500 bg-white focus:text-fuchsia-500 focus:shadow-hover focus:outline-none focus:shadow-fuchsia-500 hover:text-fuchsia-500 hover:shadow-hover hover:shadow-fuchsia-500',
         className
       )}
       {...props}

@@ -6,6 +6,13 @@ module.exports = {
   theme: {
     extend: {
       boxShadow: { hover: '0.25rem 0.25rem' },
+
+      gridTemplateColumns: {
+        layout: 'auto 1fr',
+      },
+      gridTemplateRows: {
+        layout: 'auto 1fr auto',
+      },
     },
     fontFamily: {
       sans: ['Inter', 'sans-serif'],

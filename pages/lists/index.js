@@ -1,6 +1,5 @@
 import Head from 'components/Head';
 import { NavLink } from 'components/Navigation';
-import styles from './index.module.css';
 
 export default function Lists() {
   return (
@@ -8,9 +7,9 @@ export default function Lists() {
       <Head title="lists" />
       <div>
         <h2>Lists:</h2>
-        <div className={styles.links}>
-          <NavLink href="/lists/todo" label="> todo" />
-          <NavLink href="/lists/tobuy" label="> tobuy" />
+        <div className="flex gap-2">
+          <NavLink href="/lists/todo" label="Todo" />
+          <NavLink href="/lists/tobuy" label="Tobuy" />
         </div>
       </div>
     </div>
