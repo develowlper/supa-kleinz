@@ -7,6 +7,17 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import TextField from 'components/TextField';
 import Button from 'components/Button';
 import Head from 'next/head';
+import { motion } from 'framer-motion';
+
+const container = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.25 } },
+};
+
+const variants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1 },
+};
 
 export default function List() {
   const router = useRouter();
@@ -118,13 +129,19 @@ export default function List() {
         <div className="flex-1 shadow-md">
           <div className="h-full p-2 border bg-white">
             <h2 className="text-lg px-4 py-2">Open</h2>
-            <ul className="space-y-2">
+            <motion.ul
+              variants={container}
+              initial="hidden"
+              animate="show"
+              className="space-y-2"
+            >
               {tasks.length < 1 && <p>No items</p>}
               {tasks
                 .filter((x) => !x.is_complete)
                 .map(({ task, id: taskId, is_complete }) => {
                   return (
-                    <li
+                    <motion.li
+                      variants={variants}
                       className="border px-4 py-2 bg-white shadow-sm flex items-center gap-2"
                       key={taskId}
                     >
@@ -137,22 +154,28 @@ export default function List() {
                         onChange={handleChecked}
                       />
                       <label htmlFor={taskId}>{task}</label>
-                    </li>
+                    </motion.li>
                   );
                 })}
-            </ul>
+            </motion.ul>
           </div>
         </div>
         <div className="flex-1">
           <div className="h-full p-2 border bg-white shadow-md">
             <h2 className="text-lg px-4 py-2">Done</h2>
-            <ul className="space-y-2">
+            <motion.ul
+              animate="show"
+              initial="hidden"
+              variants={container}
+              className="space-y-2"
+            >
               {tasks.length < 1 && <p>No items</p>}
               {tasks
                 .filter((x) => x.is_complete)
                 .map(({ task, id: taskId, is_complete }) => {
                   return (
-                    <li
+                    <motion.li
+                      variants={variants}
                       className="border px-4 py-2 bg-white shadow-sm flex items-center gap-2"
                       key={taskId}
                     >
@@ -165,10 +188,10 @@ export default function List() {
                         onChange={handleChecked}
                       />
                       <label htmlFor={taskId}>{task}</label>
-                    </li>
+                    </motion.li>
                   );
                 })}
-            </ul>
+            </motion.ul>
           </div>
         </div>
       </div>

@@ -29,7 +29,7 @@ export const NavLink = ({ href, label, icon }) => {
     <Link key={href} href={href} passHref>
       <a
         className={clsx(
-          'flex items-center gap-1 text-lg hover:text-fuchsia-500',
+          'flex items-center gap-1 hover:text-fuchsia-500',
           isCurrentPath && 'text-emerald-500'
         )}
       >
