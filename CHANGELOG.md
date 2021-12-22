@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.13](https://github.com/develowlper/supa-kleinz/compare/v0.1.12...v0.1.13) (2021-12-22)
+
+
+### Features
+
+* server side auth ([d70a7bb](https://github.com/develowlper/supa-kleinz/commit/d70a7bb5577b9a962eb21c593d0505848860e6da))
+
 ### [0.1.12](https://github.com/develowlper/supa-kleinz/compare/v0.1.11...v0.1.12) (2021-12-22)
 
 
