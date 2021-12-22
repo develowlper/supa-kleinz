@@ -2,16 +2,19 @@ import { supabase } from 'lib/initSupabase';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
-export default function useRedirectOnSignout() {
+export default function useRedirectOnAuthChange() {
   const router = useRouter();
+
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
         if (event === 'SIGNED_OUT') {
-          console.log('REROUTE');
-          router.push(
-            '/signin?returnUrl=' + encodeURIComponent(router.pathname)
+          router.replace(
+            '/signin?returnUrl=' + encodeURIComponent(router.asPath)
           );
+        }
+        if (event === 'SIGNED_IN') {
+          router.replace(router.query.returnUrl || '/');
         }
       }
     );

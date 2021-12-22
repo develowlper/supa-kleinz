@@ -27,9 +27,7 @@ export default function Signin() {
       return data;
     },
     {
-      onSuccess: () => {
-        router.replace(router.query.returnUrl || '/');
-      },
+      onSuccess: () => {},
     }
   );
 

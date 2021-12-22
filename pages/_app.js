@@ -6,7 +6,7 @@ import '../styles/globals.css';
 import { useState } from 'react';
 import Authorization from 'components/Authorization';
 import useUpdateAuthCookie from 'hooks/useUpdateAuthCookie';
-import useRedirectOnSignout from 'hooks/useRedirectOnSignOut';
+import useRedirectOnSignout from 'hooks/useRedirectOnAuthChange';
 
 export default function SupaKleinz({ Component, pageProps }) {
   const [queryClient] = useState(() => new QueryClient());
