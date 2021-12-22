@@ -4,40 +4,23 @@ import { useRouter } from 'next/router';
 import clsx from 'clsx';
 import { supabase } from 'lib/initSupabase';
 import {
+  RiGalleryLine,
   RiHomeLine,
   RiStoreLine,
   RiTaskLine,
   RiUserVoiceLine,
 } from 'react-icons/ri';
 
-import Button from './Button';
 import { useIsAuthenticated } from 'stores/authorization';
+import NavLink from './NavLink';
 
 const links = [
   { href: '/', label: 'Home', icon: <RiHomeLine /> },
   { href: '/lists/todo', label: 'Todo', icon: <RiTaskLine /> },
   { href: '/lists/tobuy', label: 'Tobuy', icon: <RiStoreLine /> },
   { href: '/names', label: 'Names', icon: <RiUserVoiceLine /> },
+  { href: '/images', label: 'Images', icon: <RiGalleryLine /> },
 ];
-
-export const NavLink = ({ href, label, icon }) => {
-  const { asPath } = useRouter();
-
-  const isCurrentPath = href === asPath;
-
-  return (
-    <Link key={href} href={href} passHref>
-      <a
-        className={clsx(
-          'flex items-center gap-1 hover:text-fuchsia-500',
-          isCurrentPath && 'text-emerald-500'
-        )}
-      >
-        {icon} {label}
-      </a>
-    </Link>
-  );
-};
 
 export const Navbar = () => {
   const isAuthenticated = useIsAuthenticated();

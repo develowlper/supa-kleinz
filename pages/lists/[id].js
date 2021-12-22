@@ -112,11 +112,12 @@ export default function List() {
         <title>{`${id}`}</title>
       </Head>
       <form className="flex gap-2 items-center" onSubmit={formik.handleSubmit}>
+        <label htmlFor="label">What could be done?</label>
         <TextField
           type="text"
           id="label"
           name="label"
-          placeholder="enter task here"
+          placeholder="Enter task here."
           onChange={formik.handleChange}
           value={formik.values.label}
         />
@@ -146,7 +147,7 @@ export default function List() {
                       key={taskId}
                     >
                       <input
-                        className="form-checkbox h-4 w-4 text-emerald-500"
+                        className="form-checkbox h-4 w-4 text-sky-500"
                         disabled={update.isLoading}
                         id={taskId}
                         type="checkbox"
@@ -180,7 +181,7 @@ export default function List() {
                       key={taskId}
                     >
                       <input
-                        className="form-checkbox h-4 w-4 text-emerald-500"
+                        className="form-checkbox h-4 w-4 text-sky-500"
                         disabled={update.isLoading}
                         id={taskId}
                         type="checkbox"

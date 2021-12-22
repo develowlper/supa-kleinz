@@ -73,7 +73,7 @@ const Name = ({ name, mood, id }) => {
         {mood !== 'dislike' && (
           <button
             disabled={isUpdating}
-            className="flex flex-col justify-end items-center hover:text-blue-500"
+            className="flex flex-col justify-end items-center hover:text-sky-500"
             onClick={() => update('dislike')}
           >
             <RiDislikeLine className="" />
@@ -158,18 +158,18 @@ export default function Names(props) {
         <title>Names</title>
       </Head>
       <div className="space-y-3 my-6">
-        <form
-          className="flex gap-2 items-center"
-          onSubmit={formik.handleSubmit}
-        >
-          <TextField
-            type="text"
-            id="name"
-            name="name"
-            placeholder="Enter name here"
-            onChange={formik.handleChange}
-            value={formik.values.name}
-          />
+        <form className="flex gap-2 items-end" onSubmit={formik.handleSubmit}>
+          <div className="flex flex-col gap-1">
+            <label htmlFor="name">Name your child.</label>
+            <TextField
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Enter name here."
+              onChange={formik.handleChange}
+              value={formik.values.name}
+            />
+          </div>
           <Button disabled={create.isLoading} type="submit">
             Create
           </Button>
