@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.11](https://github.com/develowlper/supa-kleinz/compare/v0.1.10...v0.1.11) (2021-12-22)
+
+
+### Features
+
+* image upload with blurhash ([3a79222](https://github.com/develowlper/supa-kleinz/commit/3a792221b127c18888cd048c4e1943ff8af84c12))
+
 ### [0.1.10](https://github.com/develowlper/supa-kleinz/compare/v0.1.9...v0.1.10) (2021-12-22)
 
 
