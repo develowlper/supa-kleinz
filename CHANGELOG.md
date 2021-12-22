@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.12](https://github.com/develowlper/supa-kleinz/compare/v0.1.11...v0.1.12) (2021-12-22)
+
+
+### Bug Fixes
+
+* remived lists ([a287f59](https://github.com/develowlper/supa-kleinz/commit/a287f59d25643a08bbd8c0f6080d99bed27ce73a))
+
 ### [0.1.11](https://github.com/develowlper/supa-kleinz/compare/v0.1.10...v0.1.11) (2021-12-22)
 
 
