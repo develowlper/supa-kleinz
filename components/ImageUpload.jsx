@@ -3,6 +3,16 @@ import { supabase } from 'lib/initSupabase';
 import { nanoid } from 'nanoid';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { RiAddLine } from 'react-icons/ri';
+import { encode } from 'blurhash';
+
+const getImageData = (image) => {
+  const canvas = document.createElement('canvas');
+  canvas.width = image.width;
+  canvas.height = image.height;
+  const context = canvas.getContext('2d');
+  context.drawImage(image, 0, 0);
+  return context.getImageData(0, 0, image.width, image.height);
+};
 
 const variants = {
   hide: {
@@ -30,16 +40,33 @@ export default function ImageUpload({ onUpload }) {
   const [isOptimizing, setIsOptimizing] = useState(false);
 
   const handleNewImageUpload = useCallback(
-    async (imageObject) => {
+    async (inputFile, imageObject) => {
       setIsOptimizing(true);
+      const url = URL.createObjectURL(inputFile);
+      const img = new Image();
+      img.src = url;
+      await img.decode();
+      const imageData = getImageData(img);
+      const blurhash = encode(
+        imageData.data,
+        imageData.width,
+        imageData.height,
+        4,
+        4
+      );
+
       const { data, error } = await supabase
         .from('image_meta')
         .insert({
           object_key: imageObject.Key,
           created_by: supabase.auth.user()?.id,
+          width: img.width,
+          height: img.height,
+          blurhash,
         })
         .single();
       if (data) {
+        console.log(data);
         onUpload(data);
         setError(null);
       }
@@ -63,7 +90,7 @@ export default function ImageUpload({ onUpload }) {
         .upload(`private/${nanoid()}.${ext}`, inputFile);
       if (data) {
         setError(null);
-        handleNewImageUpload(data);
+        handleNewImageUpload(inputFile, data);
       }
       if (error) {
         setError(error);
