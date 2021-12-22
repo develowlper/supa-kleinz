@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.10](https://github.com/develowlper/supa-kleinz/compare/v0.1.9...v0.1.10) (2021-12-22)
+
+
+### Features
+
+* aniamted lists, styled names, like & dislike ([b3c1fe9](https://github.com/develowlper/supa-kleinz/commit/b3c1fe93c899352c2b65c835a676357855b42d13))
+* image upload ([0021f9e](https://github.com/develowlper/supa-kleinz/commit/0021f9ea9907156cf4f4d18b4226bbb828e40b23))
+
 ### [0.1.9](https://github.com/develowlper/supa-kleinz/compare/v0.1.8...v0.1.9) (2021-12-20)
 
 
