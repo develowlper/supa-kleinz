@@ -1,4 +1,5 @@
 import Head from 'components/Head';
+import enforceAuthenticated from 'lib/auth/enforceAuthenticated';
 
 export default function Home() {
   return (
@@ -50,3 +51,4 @@ export default function Home() {
     </>
   );
 }
+export const getServerSideProps = enforceAuthenticated();

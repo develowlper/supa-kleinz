@@ -1,5 +1,6 @@
 import Image from 'components/Image';
 import ImageUpload from 'components/ImageUpload';
+import enforceAuthenticated from 'lib/auth/enforceAuthenticated';
 import { supabase } from 'lib/initSupabase';
 import { useQuery, useQueryClient } from 'react-query';
 
@@ -26,5 +27,6 @@ export default function Images() {
     </>
   );
 }
+export const getServerSideProps = enforceAuthenticated();
 
 // {"Key":"images/private/GpPooyhxIemczco-5c5k4.jpg"}

@@ -1,5 +1,5 @@
 import Head from 'components/Head';
-import { NavLink } from 'components/NavLink';
+import enforceAuthenticated from 'lib/auth/enforceAuthenticated';
 
 export default function Lists() {
   return (
@@ -9,3 +9,4 @@ export default function Lists() {
     </div>
   );
 }
+export const getServerSideProps = enforceAuthenticated();

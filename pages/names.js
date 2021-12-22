@@ -12,6 +12,7 @@ import {
   RiHeartLine,
 } from 'react-icons/ri';
 import { motion } from 'framer-motion';
+import enforceAuthenticated from 'lib/auth/enforceAuthenticated';
 
 const variants = {
   hidden: { opacity: 0 },
@@ -200,3 +201,5 @@ export default function Names(props) {
     </div>
   );
 }
+
+export const getServerSideProps = enforceAuthenticated();

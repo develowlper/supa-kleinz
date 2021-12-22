@@ -8,6 +8,7 @@ import TextField from 'components/TextField';
 import Button from 'components/Button';
 import Head from 'next/head';
 import { motion } from 'framer-motion';
+import enforceAuthenticated from 'lib/auth/enforceAuthenticated';
 
 const container = {
   hidden: { opacity: 0 },
@@ -199,3 +200,5 @@ export default function List() {
     </div>
   );
 }
+
+export const getServerSideProps = enforceAuthenticated();

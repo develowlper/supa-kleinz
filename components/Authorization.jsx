@@ -11,15 +11,5 @@ const useIsPublicRoute = () => {
 };
 
 export default function Authorization({ children }) {
-  const isAuthenticated = useIsAuthenticated();
-  const router = useRouter();
-  const isPublicRoute = useIsPublicRoute();
-  const signinUrl = useSigninUrl();
-  useEffect(() => {
-    if (!isAuthenticated && !isPublicRoute) {
-      router.replace(signinUrl);
-    }
-  }, [isAuthenticated, isPublicRoute, router, signinUrl]);
-
   return children;
 }
