@@ -28,5 +28,3 @@ export default function Images() {
   );
 }
 export const getServerSideProps = enforceAuthenticated();
-
-// {"Key":"images/private/GpPooyhxIemczco-5c5k4.jpg"}

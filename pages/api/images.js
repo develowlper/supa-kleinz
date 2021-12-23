@@ -2,39 +2,31 @@ import { supabase } from 'lib/supabaseClient';
 import middleware from 'middleware/middleware';
 import nextConnect from 'next-connect';
 import fs from 'fs/promises';
+import { uploadImage } from 'data/images';
 
 const handler = nextConnect();
 handler.use(middleware);
 
 handler.post(async (req, res) => {
-  console.log('req.headers', req.headers);
   const file = req?.files?.file[0];
   if (!file) {
-    console.log('NO FILE');
     res.status(400).json({ error: 'No file uploaded' });
   }
   const path = file.path;
   const filename = path.split('/').pop();
 
   const { user } = await supabase.auth.api.getUserByCookie(req);
-
-  console.log({ user });
+  if (!user) {
+    res.statusCode(401).json({ error: 'Not logged in' });
+    return;
+  }
   try {
-    const readFile = await fs.readFile(path);
-    const name = 'private/' + filename;
-    console.log(name);
-    const upload = await supabase.from('names').select();
-    console.log(upload);
-
-    const uploadRes = await supabase.storage
-      .from('images')
-      .upload(name, readFile, { contentType: 'images/jpeg' });
-    console.log(uploadRes);
-    //...
-
-    res.status(200).json({ uploadRes });
+    const fileData = await fs.readFile(path);
+    const name = filename;
+    const upload = await uploadImage({ file: fileData, name }); // supabase.from('names').select();
+    res.status(200).json({ upload });
+    return;
   } catch (err) {
-    console.log('ERR', err);
     res.statusCode(500).json({ error: err.message });
   }
 });

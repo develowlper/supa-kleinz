@@ -100,7 +100,7 @@ const NameSheet = ({ children, className }) => {
   );
 };
 
-export default function Names({ names: namesProp }) {
+export default function Names({}) {
   const queryClient = useQueryClient();
 
   const {
@@ -120,10 +120,6 @@ export default function Names({ names: namesProp }) {
 
     { initialData: [] }
   );
-
-  if (names.length !== namesProp.length) {
-    console.warn('Names length is not equal to namesProp length');
-  }
 
   const create = useMutation(
     async (name) => {

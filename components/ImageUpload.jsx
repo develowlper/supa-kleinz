@@ -93,7 +93,7 @@ export default function ImageUpload({ onUpload }) {
         method: 'POST',
       });
 
-      console.log(res);
+      console.log(await res.json());
       // console.log(await res.json());
       // nanoid;
       // setIsUploading(true);
