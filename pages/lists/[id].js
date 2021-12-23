@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 
-import { supabase } from 'lib/initSupabase';
+import { supabase } from 'lib/supabaseClient';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import TextField from 'components/TextField';

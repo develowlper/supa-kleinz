@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { supabase } from 'lib/initSupabase';
+import { supabase } from 'lib/supabaseClient';
 import { nanoid } from 'nanoid';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { RiAddLine } from 'react-icons/ri';
@@ -41,61 +41,76 @@ export default function ImageUpload({ onUpload }) {
 
   const handleNewImageUpload = useCallback(
     async (inputFile, imageObject) => {
-      setIsOptimizing(true);
-      const url = URL.createObjectURL(inputFile);
-      const img = new Image();
-      img.src = url;
-      await img.decode();
-      const imageData = getImageData(img);
-      const blurhash = encode(
-        imageData.data,
-        imageData.width,
-        imageData.height,
-        4,
-        4
-      );
-
-      const { data, error } = await supabase
-        .from('image_meta')
-        .insert({
-          object_key: imageObject.Key,
-          created_by: supabase.auth.user()?.id,
-          width: img.width,
-          height: img.height,
-          blurhash,
-        })
-        .single();
-      if (data) {
-        console.log(data);
-        onUpload(data);
-        setError(null);
-      }
-      if (error) {
-        setImage(null);
-        setError(error);
-      }
-      setIsOptimizing(false);
+      // setIsOptimizing(true);
+      // const url = URL.createObjectURL(inputFile);
+      // const img = new Image();
+      // img.src = url;
+      // await img.decode();
+      // const imageData = getImageData(img);
+      // const blurhash = encode(
+      //   imageData.data,
+      //   imageData.width,
+      //   imageData.height,
+      //   4,
+      //   4
+      // );
+      // const { data, error } = await supabase
+      //   .from('image_meta')
+      //   .insert({
+      //     object_key: imageObject.Key,
+      //     created_by: supabase.auth.user()?.id,
+      //     width: img.width,
+      //     height: img.height,
+      //     blurhash,
+      //   })
+      //   .single();
+      // if (data) {
+      //   console.log(data);
+      //   onUpload(data);
+      //   setError(null);
+      // }
+      // if (error) {
+      //   setImage(null);
+      //   setError(error);
+      // }
+      // setIsOptimizing(false);
     },
-    [onUpload]
+    [
+      //  onUpload
+    ]
   );
 
   const handleChange = useCallback(
     async (e) => {
-      nanoid;
-      setIsUploading(true);
       const inputFile = e.target.files[0];
-      const ext = inputFile.name.split('.').pop();
-      const { data, error } = await supabase.storage
-        .from('images')
-        .upload(`private/${nanoid()}.${ext}`, inputFile);
-      if (data) {
-        setError(null);
-        handleNewImageUpload(inputFile, data);
-      }
-      if (error) {
-        setError(error);
-      }
-      setIsUploading(false);
+      const data = new FormData();
+
+      data.append('file', inputFile);
+
+      const res = await fetch('/api/images', {
+        body: data,
+        credentials: 'include',
+        method: 'POST',
+      });
+
+      console.log(res);
+      // console.log(await res.json());
+      // nanoid;
+      // setIsUploading(true);
+      // const inputFile = e.target.files[0];
+      // const ext = inputFile.name.split('.').pop();
+      // const { data, error } = await supabase.storage
+      //   .from('images')
+      //   .upload(`private/${nanoid()}.${ext}`, inputFile);
+      // console.log({ data, error });
+      // if (data) {
+      //   setError(null);
+      //   handleNewImageUpload(inputFile, data);
+      // }
+      // if (error) {
+      //   setError(error);
+      // }
+      // setIsUploading(false);
     },
     [handleNewImageUpload]
   );

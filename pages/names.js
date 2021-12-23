@@ -1,7 +1,7 @@
 import Button from 'components/Button';
 import TextField from 'components/TextField';
 import { useFormik } from 'formik';
-import { supabase } from 'lib/initSupabase';
+import { supabase } from 'lib/supabaseClient';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Head from 'next/head';
 import clsx from 'clsx';
@@ -13,6 +13,7 @@ import {
 } from 'react-icons/ri';
 import { motion } from 'framer-motion';
 import enforceAuthenticated from 'lib/auth/enforceAuthenticated';
+import { getNames } from 'data/names';
 
 const variants = {
   hidden: { opacity: 0 },
@@ -99,7 +100,7 @@ const NameSheet = ({ children, className }) => {
   );
 };
 
-export default function Names(props) {
+export default function Names({ names: namesProp }) {
   const queryClient = useQueryClient();
 
   const {
@@ -108,11 +109,8 @@ export default function Names(props) {
     isError,
   } = useQuery(
     ['names'],
-    async ({ queryKey }) => {
-      const { error, data } = await supabase
-        .from(queryKey[0])
-        .select('*')
-        .order('id', true);
+    async () => {
+      const { error, data } = await getNames();
 
       if (error) {
         throw error;
@@ -122,6 +120,10 @@ export default function Names(props) {
 
     { initialData: [] }
   );
+
+  if (names.length !== namesProp.length) {
+    console.warn('Names length is not equal to namesProp length');
+  }
 
   const create = useMutation(
     async (name) => {

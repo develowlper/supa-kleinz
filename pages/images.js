@@ -1,7 +1,7 @@
 import Image from 'components/Image';
 import ImageUpload from 'components/ImageUpload';
 import enforceAuthenticated from 'lib/auth/enforceAuthenticated';
-import { supabase } from 'lib/initSupabase';
+import { supabase } from 'lib/supabaseClient';
 import { useQuery, useQueryClient } from 'react-query';
 
 export default function Images() {

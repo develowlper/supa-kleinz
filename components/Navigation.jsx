@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import { useRouter } from 'next/router';
 import clsx from 'clsx';
-import { supabase } from 'lib/initSupabase';
+import { supabase } from 'lib/supabaseClient';
 import {
   RiGalleryLine,
   RiHomeLine,

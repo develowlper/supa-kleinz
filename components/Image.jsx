@@ -1,4 +1,4 @@
-import { supabase } from 'lib/initSupabase';
+import { supabase } from 'lib/supabaseClient';
 import { useQuery } from 'react-query';
 import NextImage from 'next/image';
 import { Blurhash } from 'react-blurhash';

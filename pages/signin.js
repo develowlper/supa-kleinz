@@ -1,7 +1,7 @@
 import Button from 'components/Button';
 import TextField from 'components/TextField';
 import { useFormik } from 'formik';
-import { supabase } from 'lib/initSupabase';
+import { supabase } from 'lib/supabaseClient';
 import { useRouter } from 'next/router';
 import { useCallback } from 'react';
 import { RiLockUnlockLine } from 'react-icons/ri';

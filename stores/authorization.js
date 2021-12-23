@@ -1,4 +1,4 @@
-import { supabase } from 'lib/initSupabase';
+import { supabase } from 'lib/supabaseClient';
 import create from 'zustand';
 
 //create zustand store
