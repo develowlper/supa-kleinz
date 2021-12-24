@@ -36,7 +36,11 @@ export const getServerSideProps = enforceAuthenticated(async (ctx) => {
       const object = await spacesClient
         .getObject({ Bucket: process.env.SPACES_BUCKET, Key: image.Key })
         .promise();
-      const meta = await sharp(object.Body).metadata();
+      const smallSized = await sharp(object.Body)
+        .resize({ width: 500 })
+        .toBuffer();
+
+      const meta = await sharp(smallSized).metadata();
 
       return {
         src,
