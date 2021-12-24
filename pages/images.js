@@ -19,13 +19,14 @@ export default function Images({ images }) {
     </>
   );
 }
+
 export const getServerSideProps = enforceAuthenticated(async (ctx) => {
   const { Contents } = await spacesClient
     .listObjects({ Bucket: process.env.SPACES_BUCKET })
     .promise();
 
   const images = await Promise.all(
-    Contents.filter((x) => x.Key.includes('thumb_')).map(async (image) => {
+    Contents.map(async (image) => {
       const src = await spacesClient.getSignedUrl('getObject', {
         Bucket: process.env.SPACES_BUCKET,
         Key: image.Key, //filename
