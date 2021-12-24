@@ -44,33 +44,18 @@ export default function ImageUpload({ onUpload }) {
         credentials: 'include',
         method: 'POST',
       });
-    },
-    { onSuccess: async (res) => console.log(await res.json()) }
+    }
   );
 
-  const handleChange = useCallback((e) => {
-    const inputFile = e.target.files[0];
-    const data = new FormData();
-    data.append('file', inputFile);
-    uploadFile(data);
-
-    // nanoid;
-    // setIsUploading(true);
-    // const inputFile = e.target.files[0];
-    // const ext = inputFile.name.split('.').pop();
-    // const { data, error } = await supabase.storage
-    //   .from('images')
-    //   .upload(`private/${nanoid()}.${ext}`, inputFile);
-    // console.log({ data, error });
-    // if (data) {
-    //   setError(null);
-    //   handleNewImageUpload(inputFile, data);
-    // }
-    // if (error) {
-    //   setError(error);
-    // }
-    // setIsUploading(false);
-  }, []);
+  const handleChange = useCallback(
+    (e) => {
+      const inputFile = e.target.files[0];
+      const data = new FormData();
+      data.append('file', inputFile);
+      uploadFile(data);
+    },
+    [uploadFile]
+  );
 
   useEffect(() => {
     setButtonState('show');
