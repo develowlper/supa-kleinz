@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.44.0",
+    "@plaiceholder/next": "^2.2.0",
     "@supabase/supabase-js": "^1.29.1",
     "@tailwindcss/forms": "^0.4.0",
     "@tailwindcss/typography": "^0.5.0",
@@ -28,6 +29,7 @@
     "react-dom": "17.0.2",
     "react-icons": "^4.3.1",
     "react-query": "^3.34.6",
+    "sharp": "^0.29.3",
     "zustand": "^3.6.7"
   },
   "devDependencies": {

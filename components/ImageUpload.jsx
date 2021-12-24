@@ -4,6 +4,7 @@ import { nanoid } from 'nanoid';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { RiAddLine } from 'react-icons/ri';
 import { encode } from 'blurhash';
+import { useMutation } from 'react-query';
 
 const getImageData = (image) => {
   const canvas = document.createElement('canvas');
@@ -35,85 +36,41 @@ const snackVariants = {
 export default function ImageUpload({ onUpload }) {
   const [buttonState, setButtonState] = useState('hide');
   const inputRef = useRef();
-  const [isUploading, setIsUploading] = useState(false);
-  const [error, setError] = useState(null);
-  const [isOptimizing, setIsOptimizing] = useState(false);
 
-  const handleNewImageUpload = useCallback(
-    async (inputFile, imageObject) => {
-      // setIsOptimizing(true);
-      // const url = URL.createObjectURL(inputFile);
-      // const img = new Image();
-      // img.src = url;
-      // await img.decode();
-      // const imageData = getImageData(img);
-      // const blurhash = encode(
-      //   imageData.data,
-      //   imageData.width,
-      //   imageData.height,
-      //   4,
-      //   4
-      // );
-      // const { data, error } = await supabase
-      //   .from('image_meta')
-      //   .insert({
-      //     object_key: imageObject.Key,
-      //     created_by: supabase.auth.user()?.id,
-      //     width: img.width,
-      //     height: img.height,
-      //     blurhash,
-      //   })
-      //   .single();
-      // if (data) {
-      //   console.log(data);
-      //   onUpload(data);
-      //   setError(null);
-      // }
-      // if (error) {
-      //   setImage(null);
-      //   setError(error);
-      // }
-      // setIsOptimizing(false);
-    },
-    [
-      //  onUpload
-    ]
-  );
-
-  const handleChange = useCallback(
-    async (e) => {
-      const inputFile = e.target.files[0];
-      const data = new FormData();
-
-      data.append('file', inputFile);
-
-      const res = await fetch('/api/images', {
+  const { mutate: uploadFile, isLoading: isUploading } = useMutation(
+    async (data) => {
+      return fetch('/api/images', {
         body: data,
         credentials: 'include',
         method: 'POST',
       });
-
-      console.log(await res.json());
-      // console.log(await res.json());
-      // nanoid;
-      // setIsUploading(true);
-      // const inputFile = e.target.files[0];
-      // const ext = inputFile.name.split('.').pop();
-      // const { data, error } = await supabase.storage
-      //   .from('images')
-      //   .upload(`private/${nanoid()}.${ext}`, inputFile);
-      // console.log({ data, error });
-      // if (data) {
-      //   setError(null);
-      //   handleNewImageUpload(inputFile, data);
-      // }
-      // if (error) {
-      //   setError(error);
-      // }
-      // setIsUploading(false);
     },
-    [handleNewImageUpload]
+    { onSuccess: async (res) => console.log(await res.json()) }
   );
+
+  const handleChange = useCallback((e) => {
+    const inputFile = e.target.files[0];
+    const data = new FormData();
+    data.append('file', inputFile);
+    uploadFile(data);
+
+    // nanoid;
+    // setIsUploading(true);
+    // const inputFile = e.target.files[0];
+    // const ext = inputFile.name.split('.').pop();
+    // const { data, error } = await supabase.storage
+    //   .from('images')
+    //   .upload(`private/${nanoid()}.${ext}`, inputFile);
+    // console.log({ data, error });
+    // if (data) {
+    //   setError(null);
+    //   handleNewImageUpload(inputFile, data);
+    // }
+    // if (error) {
+    //   setError(error);
+    // }
+    // setIsUploading(false);
+  }, []);
 
   useEffect(() => {
     setButtonState('show');
@@ -148,16 +105,6 @@ export default function ImageUpload({ onUpload }) {
       >
         Uploading...
       </motion.div>
-      <motion.div
-        className="fixed right-0 bottom-20 bg-fuchsia-500 p-2 shadow-sm -translate-x-1/2"
-        initial={false}
-        variants={snackVariants}
-        animate={isOptimizing ? 'show' : 'hide'}
-      >
-        Optimizing...
-      </motion.div>
     </>
   );
 }
-
-// {"Key":"images/private/GpPooyhxIemczco-5c5k4.jpg"}
