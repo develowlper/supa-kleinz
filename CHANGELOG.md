@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.15](https://github.com/develowlper/supa-kleinz/compare/v0.1.14...v0.1.15) (2021-12-24)
+
+
+### Features
+
+* image upload ([4d09d80](https://github.com/develowlper/supa-kleinz/commit/4d09d80cddacb26b1282e0538550dd632ba3d7e2))
+* image uploading works ([08ab917](https://github.com/develowlper/supa-kleinz/commit/08ab917e7c59d7fad32e00e274ae7c07d78432f8))
+
 ### [0.1.14](https://github.com/develowlper/supa-kleinz/compare/v0.1.13...v0.1.14) (2021-12-22)
 
 
