@@ -35,33 +35,28 @@ function List({ swrQuery, isError, error, userId }) {
     return getTasks(id, userId);
   });
 
-  const create = useMutation(
-    async (task) => {
-      const { data, error } = await supabase
-        .from('todos')
-        .insert(task)
-        .single();
+  const create = useCallback(async (task) => {
+    console.log(task);
+    const { data, error } = await supabase.from('todos').insert(task).single();
 
-      if (error) {
-        throw error;
-      }
-      return data;
-    },
-    {
-      onSuccess: () => queryClient.invalidateQueries(['tasks', id]),
+    console.log(data);
+
+    if (error) {
+      throw error;
     }
-  );
+    return data;
+  }, []);
 
   const update = useCallback(
     async ({ id, is_complete }) => {
       //   mutate('/api/user', { ...data, name: newName }, false);
 
-      await setIsTaskComplete(id, is_complete);
-
+      const res = await setIsTaskComplete(id, is_complete);
+      console.log(res);
       // trigger a revalidation (refetch) to make sure our local data is correct
       mutate(swrQuery);
     },
-    [swrQuery]
+    [mutate, swrQuery]
   );
 
   // useMutation(
@@ -86,7 +81,7 @@ function List({ swrQuery, isError, error, userId }) {
       const task = values.label.trim();
       const user = supabase.auth.user();
       if (task.length) {
-        create.mutate({ task, user_id: user.id, list: id });
+        create({ task, user_id: user.id, list: id });
         resetForm();
       }
     },
