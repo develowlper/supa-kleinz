@@ -9,6 +9,9 @@ import Button from 'components/Button';
 import Head from 'next/head';
 import { motion } from 'framer-motion';
 import enforceAuthenticated from 'lib/auth/enforceAuthenticated';
+import { getTasks, useTasks } from 'data/tasks';
+import useSWR from 'swr';
+import { useUser } from 'stores/authorization';
 
 const container = {
   hidden: { opacity: 0 },
@@ -20,32 +23,15 @@ const variants = {
   show: { opacity: 1 },
 };
 
-export default function List() {
+export default function List({ swrQuery, tasks, isError, error }) {
   const router = useRouter();
-  const queryClient = useQueryClient();
   const { id } = router.query;
 
-  const {
-    data: tasks,
-    isLoading,
-    isError,
-  } = useQuery(
-    ['tasks', id],
-    async ({ queryKey }) => {
-      const { error, data } = await supabase
-        .from('todos')
-        .select('*')
-        .eq('list', queryKey[1])
-        .order('id', true);
+  const queryClient = useQueryClient();
 
-      if (error) {
-        throw error;
-      }
-      return data;
-    },
-
-    { initialData: [] }
-  );
+  const { data } = useSWR(swrQuery, async function loadTasks(_, queryParams) {
+    return getTasks(id, queryParams.user_id);
+  });
 
   const create = useMutation(
     async (task) => {
@@ -132,6 +118,7 @@ export default function List() {
           <div className="h-full p-2 border bg-white">
             <h2 className="text-lg px-4 py-2">Open</h2>
             <motion.ul
+              key={`${id}-complete`}
               variants={container}
               initial="hidden"
               animate="show"
@@ -166,6 +153,7 @@ export default function List() {
           <div className="h-full p-2 border bg-white shadow-md">
             <h2 className="text-lg px-4 py-2">Done</h2>
             <motion.ul
+              key={id}
               animate="show"
               initial="hidden"
               variants={container}
@@ -201,4 +189,21 @@ export default function List() {
   );
 }
 
-export const getServerSideProps = enforceAuthenticated();
+export const getServerSideProps = enforceAuthenticated(async (ctx, user) => {
+  const {
+    resolvedUrl,
+    params: { id },
+  } = ctx;
+
+  const res = await getTasks(id, user.id);
+
+  return {
+    props: {
+      tasks: res?.data,
+      swrQuery: [resolvedUrl, { user_id: user.id }],
+      fallback: {
+        [resolvedUrl]: res,
+      },
+    },
+  };
+});

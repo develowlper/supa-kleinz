@@ -17,7 +17,6 @@ const formFields = [
 ];
 
 export default function Signin() {
-  const router = useRouter();
   const { mutate, isLoading, isError, error, reset } = useMutation(
     async (values) => {
       const { data, error } = await supabase.auth.signIn(values);
