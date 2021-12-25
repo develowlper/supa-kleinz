@@ -9,9 +9,10 @@ import Button from 'components/Button';
 import Head from 'next/head';
 import { motion } from 'framer-motion';
 import enforceAuthenticated from 'lib/auth/enforceAuthenticated';
-import { getTasks, useTasks } from 'data/tasks';
-import useSWR from 'swr';
+import { getTasks, setIsTaskComplete, useTasks } from 'data/tasks';
+import useSWR, { SWRConfig, useSWRConfig } from 'swr';
 import { useUser } from 'stores/authorization';
+import { useCallback } from 'react';
 
 const container = {
   hidden: { opacity: 0 },
@@ -23,14 +24,15 @@ const variants = {
   show: { opacity: 1 },
 };
 
-export default function List({ swrQuery, tasks, isError, error }) {
+function List({ swrQuery, isError, error, userId }) {
   const router = useRouter();
   const { id } = router.query;
+  const { mutate } = useSWRConfig();
 
   const queryClient = useQueryClient();
 
-  const { data } = useSWR(swrQuery, async function loadTasks(_, queryParams) {
-    return getTasks(id, queryParams.user_id);
+  const { data: tasks } = useSWR(swrQuery, async function loadTasks() {
+    return getTasks(id, userId);
   });
 
   const create = useMutation(
@@ -50,23 +52,31 @@ export default function List({ swrQuery, tasks, isError, error }) {
     }
   );
 
-  const update = useMutation(
+  const update = useCallback(
     async ({ id, is_complete }) => {
-      const { data, error } = await supabase
-        .from('todos')
-        .update({ is_complete })
-        .eq('id', id)
-        .single();
+      //   mutate('/api/user', { ...data, name: newName }, false);
 
-      if (error) {
-        throw error;
-      }
-      return data;
+      await setIsTaskComplete(id, is_complete);
+
+      // trigger a revalidation (refetch) to make sure our local data is correct
+      mutate(swrQuery);
     },
-    {
-      onSuccess: () => queryClient.invalidateQueries(['tasks', id]),
-    }
+    [swrQuery]
   );
+
+  // useMutation(
+  //   async ({ id, is_complete }) => {
+  //     const { data, error } = await setIsTaskComplete(id, is_complete);
+
+  //     if (error) {
+  //       throw error;
+  //     }
+  //     return data;
+  //   },
+  //   {
+  //     onSuccess: () => queryClient.invalidateQueries(['tasks', id]),
+  //   }
+  // );
 
   const formik = useFormik({
     initialValues: {
@@ -83,7 +93,7 @@ export default function List({ swrQuery, tasks, isError, error }) {
   });
 
   const handleChecked = (e) => {
-    update.mutate({
+    update({
       id: Number(e.target.id),
       is_complete: e.target.checked,
     });
@@ -189,6 +199,14 @@ export default function List({ swrQuery, tasks, isError, error }) {
   );
 }
 
+export default function Page({ fallback, ...props }) {
+  return (
+    <SWRConfig value={{ fallback }}>
+      <List {...props} />
+    </SWRConfig>
+  );
+}
+
 export const getServerSideProps = enforceAuthenticated(async (ctx, user) => {
   const {
     resolvedUrl,
@@ -199,11 +217,11 @@ export const getServerSideProps = enforceAuthenticated(async (ctx, user) => {
 
   return {
     props: {
-      tasks: res?.data,
-      swrQuery: [resolvedUrl, { user_id: user.id }],
+      swrQuery: resolvedUrl,
       fallback: {
         [resolvedUrl]: res,
       },
+      userId: user.id,
     },
   };
 });
