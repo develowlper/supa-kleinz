@@ -31,15 +31,20 @@ handler.post(async (req, res) => {
   const meta = await sharp(thumbImage).metadata();
 
   const thumbname = `${name}-thumb.webp`;
-  const { data: thumbRes } = await uploadImageToSupabase({
+  const { data: thumbRes, error: thumbError } = await uploadImageToSupabase({
     file: thumbImage,
     name: thumbName,
   });
 
-  const { data: uploadRes } = await uploadImageToSupabase({
+  const { data: uploadRes, error: uploadError } = await uploadImageToSupabase({
     file: fileData,
     name,
   });
+
+  if (thumbError || uploadError) {
+    res.status(500).json({ thumbError, uploadError });
+    return;
+  }
 
   const dbItem = await supabase.from('image_meta').insert({
     created_by: user.id,
@@ -50,9 +55,6 @@ handler.post(async (req, res) => {
     blurhash: await encodeImageToBlurhash(thumbImage),
   });
 
-  console.log(dbItem);
-
-  // console.log(uploadRes);
   res.status(200).json(dbItem?.data);
 });
 
