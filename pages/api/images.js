@@ -2,7 +2,9 @@ import { supabase } from 'lib/supabaseClient';
 import middleware from 'middleware/middleware';
 import nextConnect from 'next-connect';
 import fs from 'fs/promises';
-import { uploadImage } from 'data/images';
+import { uploadImageToSupabase } from 'data/images';
+import sharp from 'sharp';
+import { encodeImageToBlurhash } from 'lib/encodeImageToBlurhash';
 
 const handler = nextConnect();
 handler.use(middleware);
@@ -22,9 +24,36 @@ handler.post(async (req, res) => {
   }
   const fileData = await fs.readFile(path);
   const name = filename;
+  const thumbName = `thumb_${filename.replace(/\.[^/.]+$/, '')}.webp`;
 
-  await uploadImage({ file: fileData, name });
-  res.status(200).json({});
+  const thumbImage = await sharp(fileData).resize(700).webp().toBuffer();
+
+  const meta = await sharp(thumbImage).metadata();
+
+  const thumbname = `${name}-thumb.webp`;
+  const { data: thumbRes } = await uploadImageToSupabase({
+    file: thumbImage,
+    name: thumbName,
+  });
+
+  const { data: uploadRes } = await uploadImageToSupabase({
+    file: fileData,
+    name,
+  });
+
+  const dbItem = await supabase.from('image_meta').insert({
+    created_by: user.id,
+    thumb_width: meta.width,
+    thumb_height: meta.height,
+    thumb_key: thumbRes.Key.replace('images/', ''),
+    download_key: uploadRes.Key.replace('images/', ''),
+    blurhash: await encodeImageToBlurhash(thumbImage),
+  });
+
+  console.log(dbItem);
+
+  // console.log(uploadRes);
+  res.status(200).json(dbItem?.data);
 });
 
 export const config = {

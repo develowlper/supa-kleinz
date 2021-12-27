@@ -44,6 +44,9 @@ export default function ImageUpload({ onUpload }) {
         credentials: 'include',
         method: 'POST',
       });
+    },
+    {
+      onSuccess: onUpload,
     }
   );
 

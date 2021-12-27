@@ -1,13 +1,12 @@
-import spacesClient from 'lib/spacesClient';
+import { supabase } from 'lib/supabaseClient';
 
-const Bucket = process.env.SPACES_BUCKET;
-
-export const uploadImage = ({ file, name }) => {
-  return spacesClient
-    .putObject({
-      Body: file,
-      Key: name,
-      Bucket,
-    })
-    .promise();
+export const uploadImageToSupabase = ({ file, name }) => {
+  return supabase.storage.from('images').upload(`private/${name}`, file);
 };
+
+export const getImageMetas = async (user_id) =>
+  supabase
+    .from('image_meta')
+    .select('*')
+    .eq('created_by', user_id)
+    .order('id', { ascending: false });

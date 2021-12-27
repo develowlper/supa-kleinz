@@ -1,6 +1,8 @@
 /* eslint-disable jsx-a11y/alt-text */
 
+import { supabase } from 'lib/supabaseClient';
 import NextImage from 'next/image';
+import { useCallback, useEffect, useState } from 'react';
 import { Blurhash } from 'react-blurhash';
 
 function gcd(a, b) {
@@ -12,7 +14,28 @@ const getAspect = (width, height) => {
   return `${width / divisor}/${height / divisor}`;
 };
 
-export default function Image({ src, width = 500, height = 700, blurhash }) {
+export default function Image({
+  width = 500,
+  height = 700,
+  blurhash,
+  thumb_height,
+  thumb_width,
+  thumb_key,
+  ...props
+}) {
+  const [src, setSrc] = useState(null);
+
+  const getSrcFromSupabase = useCallback(async () => {
+    const {
+      data: { signedURL },
+    } = await supabase.storage.from('images').createSignedUrl(thumb_key, 120);
+    setSrc(signedURL);
+  }, [thumb_key]);
+
+  useEffect(() => {
+    getSrcFromSupabase();
+  }, [getSrcFromSupabase]);
+
   return (
     <div className="flex flex-col items-center">
       <div className="p-2 bg-white shadow-md mb-2">
@@ -21,12 +44,14 @@ export default function Image({ src, width = 500, height = 700, blurhash }) {
             className="absolute top-0 left-0 bottom-0 right-0"
             hash={blurhash}
             punch={1}
-            height={height}
-            width={width}
+            height={thumb_height}
+            width={thumb_width}
           />
-          <div className="absolute top-0 left-0">
-            <NextImage src={src} width={width} height={height} />
-          </div>
+          {src && (
+            <div className="absolute top-0 left-0">
+              <NextImage src={src} width={thumb_width} height={thumb_height} />
+            </div>
+          )}
         </div>
       </div>
     </div>
