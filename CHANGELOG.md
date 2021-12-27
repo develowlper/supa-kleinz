@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.17](https://github.com/develowlper/supa-kleinz/compare/v0.1.16...v0.1.17) (2021-12-27)
+
+
+### Features
+
+* names with ssr ([77e1dd2](https://github.com/develowlper/supa-kleinz/commit/77e1dd223e1b6761f9e1862a7218263932fbe246))
+
 ### [0.1.16](https://github.com/develowlper/supa-kleinz/compare/v0.1.15...v0.1.16) (2021-12-27)
 
 
