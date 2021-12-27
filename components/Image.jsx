@@ -38,7 +38,7 @@ export default function Image({
 
   return (
     <div className="flex flex-col items-center">
-      <div className="p-2 bg-white shadow-md mb-2">
+      <div className="p-2 bg-white shadow-md mb-2 max-w-full">
         <div className="relative block overflow-hidden">
           <Blurhash
             className="absolute top-0 left-0 bottom-0 right-0"
