@@ -1,5 +1,8 @@
 import { supabase } from 'lib/supabaseClient';
 
-export const getNames = async () => {
-  return supabase.from('names').select('*').order('id', true);
-};
+export const getNames = async (user_id) =>
+  supabase
+    .from('names')
+    .select('*')
+    .eq('user_id', user_id)
+    .order('id', { ascending: false });

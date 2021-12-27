@@ -2,141 +2,23 @@ import Button from 'components/Button';
 import TextField from 'components/TextField';
 import { useFormik } from 'formik';
 import { supabase } from 'lib/supabaseClient';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Head from 'next/head';
-import clsx from 'clsx';
+
 import { capitalize } from 'utils/capitalize';
-import {
-  RiDislikeLine,
-  RiEmotionNormalLine,
-  RiHeartLine,
-} from 'react-icons/ri';
-import { motion } from 'framer-motion';
+
 import enforceAuthenticated from 'lib/auth/enforceAuthenticated';
 import { getNames } from 'data/names';
+import useSWR, { mutate, SWRConfig } from 'swr';
+import Name from 'components/Name';
+import NameSheet from 'components/Namesheet';
+import { useState } from 'react';
 
-const variants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.25 } },
-};
-
-const nameVariants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1 },
-};
-
-const Name = ({ name, mood, id }) => {
-  const queryClient = useQueryClient();
-  const { isLoading: isUpdating, mutate: update } = useMutation(
-    async (newMood) => {
-      const { data, error } = await supabase
-        .from('names')
-        .update({ mood: newMood })
-        .eq('id', id)
-        .single();
-
-      if (error) {
-        throw error;
-      }
-      return data;
-    },
-    {
-      onSuccess: () => queryClient.invalidateQueries(['names']),
-    }
-  );
-
-  return (
-    <motion.li
-      variants={nameVariants}
-      className="shadow-sm border py-2 px-3 flex justify-between items-center"
-    >
-      <div>{name}</div>
-      <div className="flex items-center space-x-2">
-        {mood !== 'ok' && (
-          <button
-            disabled={isUpdating}
-            className="flex flex-col justify-end items-center hover:text-red-500"
-            onClick={() => update('ok')}
-          >
-            <RiEmotionNormalLine className="" />
-            <span className="text-sm">Ok</span>
-          </button>
-        )}
-        {mood !== 'like' && (
-          <button
-            disabled={isUpdating}
-            className="flex flex-col justify-end items-center hover:text-red-500"
-            onClick={() => update('like')}
-          >
-            <RiHeartLine className="" />
-            <span className="text-sm">Like</span>
-          </button>
-        )}
-        {mood !== 'dislike' && (
-          <button
-            disabled={isUpdating}
-            className="flex flex-col justify-end items-center hover:text-sky-500"
-            onClick={() => update('dislike')}
-          >
-            <RiDislikeLine className="" />
-            <span className="text-sm">Dislike</span>
-          </button>
-        )}
-      </div>
-    </motion.li>
-  );
-};
-
-const NameSheet = ({ children, className }) => {
-  return (
-    <motion.div
-      initial="hidden"
-      animate="show"
-      variants={variants}
-      className={clsx('space-y-2', className)}
-    >
-      {children}
-    </motion.div>
-  );
-};
-
-export default function Names({}) {
-  const queryClient = useQueryClient();
+function Names({ user_id, swrQuery }) {
+  const [isCreating, setIsCreating] = useState(false);
 
   const {
-    data: names,
-    isLoading,
-    isError,
-  } = useQuery(
-    ['names'],
-    async () => {
-      const { error, data } = await getNames();
-
-      if (error) {
-        throw error;
-      }
-      return data;
-    },
-
-    { initialData: [] }
-  );
-
-  const create = useMutation(
-    async (name) => {
-      const { data, error } = await supabase
-        .from('names')
-        .insert(name)
-        .single();
-
-      if (error) {
-        throw error;
-      }
-      return data;
-    },
-    {
-      onSuccess: () => queryClient.invalidateQueries(['names']),
-    }
-  );
+    data: { data: names, error },
+  } = useSWR(swrQuery, async () => getNames(user_id));
 
   const formik = useFormik({
     initialValues: {
@@ -144,13 +26,20 @@ export default function Names({}) {
     },
     onSubmit: async (values, { resetForm }) => {
       const name = values.name.trim();
-      const user = supabase.auth.user();
       if (name.length) {
-        create.mutate({ name, user_id: user.id });
+        setIsCreating(true);
+        await supabase.from('names').insert({ name, user_id }).single();
+        mutate(swrQuery);
         resetForm();
+        setIsCreating(false);
       }
     },
   });
+
+  if (error) {
+    return 'ERROR';
+  }
+
   return (
     <div className="space-y-2">
       <Head>
@@ -169,10 +58,10 @@ export default function Names({}) {
               value={formik.values.name}
             />
           </div>
-          <Button disabled={create.isLoading} type="submit">
+          <Button disabled={isCreating} type="submit">
             Create
           </Button>
-          {create.isLoading && <span>SAVING</span>}
+          {isCreating && <span>SAVING</span>}
         </form>
         <div className=" md:flex md:space-x-3 space-y-3 md:space-y-0">
           {['ok', 'like', 'dislike'].map((key) => {
@@ -200,4 +89,26 @@ export default function Names({}) {
   );
 }
 
-export const getServerSideProps = enforceAuthenticated();
+export default function Page({ fallback, ...props }) {
+  return (
+    <SWRConfig value={{ fallback }}>
+      <Names {...props} />
+    </SWRConfig>
+  );
+}
+
+export const getServerSideProps = enforceAuthenticated(async (ctx, user) => {
+  const { resolvedUrl } = ctx;
+
+  const res = await getNames(user.id);
+
+  return {
+    props: {
+      swrQuery: resolvedUrl,
+      fallback: {
+        [resolvedUrl]: res,
+      },
+      user_id: user.id,
+    },
+  };
+});
