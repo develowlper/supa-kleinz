@@ -30,7 +30,6 @@ handler.post(async (req, res) => {
 
   const meta = await sharp(thumbImage).metadata();
 
-  const thumbname = `${name}-thumb.webp`;
   const { data: thumbRes, error: thumbError } = await uploadImageToSupabase({
     file: thumbImage,
     name: thumbName,
@@ -42,7 +41,7 @@ handler.post(async (req, res) => {
   });
 
   if (thumbError || uploadError) {
-    res.status(500).json({ thumbError, uploadError });
+    res.status(200).json({ thumbError, uploadError });
     return;
   }
 
