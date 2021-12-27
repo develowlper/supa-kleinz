@@ -9,7 +9,6 @@ export const getTasks = async (id, user_id) =>
     .order('id');
 
 export const setIsTaskComplete = async (id, is_complete) => {
-  console.log(await supabase.from('todos').select('*'));
   const { data, error } = await supabase
     .from('todos')
     .update({ is_complete })
