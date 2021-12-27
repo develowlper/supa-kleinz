@@ -2,17 +2,15 @@ import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 
 import { supabase } from 'lib/supabaseClient';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import TextField from 'components/TextField';
 import Button from 'components/Button';
 import Head from 'next/head';
 import { motion } from 'framer-motion';
 import enforceAuthenticated from 'lib/auth/enforceAuthenticated';
-import { getTasks, setIsTaskComplete, useTasks } from 'data/tasks';
+import { getTasks, setIsTaskComplete } from 'data/tasks';
 import useSWR, { SWRConfig, useSWRConfig } from 'swr';
-import { useUser } from 'stores/authorization';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 const container = {
   hidden: { opacity: 0 },
@@ -24,54 +22,33 @@ const variants = {
   show: { opacity: 1 },
 };
 
-function List({ swrQuery, isError, error, userId }) {
+function List({ swrQuery, userId }) {
   const router = useRouter();
   const { id } = router.query;
   const { mutate } = useSWRConfig();
+  const [isUpdating, setIsUpdating] = useState(false);
 
-  const queryClient = useQueryClient();
-
-  const { data: tasks } = useSWR(swrQuery, async function loadTasks() {
+  const {
+    data: { data: tasks, error },
+  } = useSWR(swrQuery, async function loadTasks() {
     return getTasks(id, userId);
   });
 
-  const create = useCallback(async (task) => {
-    console.log(task);
-    const { data, error } = await supabase.from('todos').insert(task).single();
-
-    console.log(data);
-
-    if (error) {
-      throw error;
-    }
-    return data;
-  }, []);
+  const create = useCallback(
+    async (task) => supabase.from('todos').insert(task).single(),
+    []
+  );
 
   const update = useCallback(
     async ({ id, is_complete }) => {
-      //   mutate('/api/user', { ...data, name: newName }, false);
-
-      const res = await setIsTaskComplete(id, is_complete);
-      console.log(res);
+      setIsUpdating(true);
+      await setIsTaskComplete(id, is_complete);
       // trigger a revalidation (refetch) to make sure our local data is correct
       mutate(swrQuery);
+      setIsUpdating(false);
     },
     [mutate, swrQuery]
   );
-
-  // useMutation(
-  //   async ({ id, is_complete }) => {
-  //     const { data, error } = await setIsTaskComplete(id, is_complete);
-
-  //     if (error) {
-  //       throw error;
-  //     }
-  //     return data;
-  //   },
-  //   {
-  //     onSuccess: () => queryClient.invalidateQueries(['tasks', id]),
-  //   }
-  // );
 
   const formik = useFormik({
     initialValues: {
@@ -94,7 +71,7 @@ function List({ swrQuery, isError, error, userId }) {
     });
   };
 
-  if (isError) {
+  if (error) {
     return 'ERROR';
   }
 
@@ -140,8 +117,8 @@ function List({ swrQuery, isError, error, userId }) {
                       key={taskId}
                     >
                       <input
+                        disabled={isUpdating}
                         className="form-checkbox h-4 w-4 text-sky-500"
-                        disabled={update.isLoading}
                         id={taskId}
                         type="checkbox"
                         checked={is_complete}
