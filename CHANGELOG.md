@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.16](https://github.com/develowlper/supa-kleinz/compare/v0.1.15...v0.1.16) (2021-12-27)
+
+
+### Features
+
+* ssr working ([18fe6b3](https://github.com/develowlper/supa-kleinz/commit/18fe6b3434f01d40e76255ac6b3991814355884f))
+
+
+### Bug Fixes
+
+* images too large ([a66afe4](https://github.com/develowlper/supa-kleinz/commit/a66afe40217f9d4ce60de074aed770306fc365db))
+
 ### [0.1.15](https://github.com/develowlper/supa-kleinz/compare/v0.1.14...v0.1.15) (2021-12-24)
 
 
