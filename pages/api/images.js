@@ -26,7 +26,10 @@ handler.post(async (req, res) => {
   const name = filename;
   const thumbName = `thumb_${filename.replace(/\.[^/.]+$/, '')}.webp`;
 
-  const thumbImage = await sharp(fileData).resize(700).webp().toBuffer();
+  const thumbImage = await sharp(fileData)
+    .resize({ width: 700 })
+    .webp()
+    .toBuffer();
 
   const meta = await sharp(thumbImage).metadata();
 

@@ -1,6 +1,7 @@
 import { supabase } from 'lib/supabaseClient';
 
 import {
+  RiDeleteBin2Line,
   RiDislikeLine,
   RiEmotionNormalLine,
   RiHeartLine,
@@ -9,15 +10,20 @@ import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 import { mutate } from 'swr';
+import { deleteName } from 'data/names';
+import clsx from 'clsx';
 
 const nameVariants = {
   hidden: { opacity: 0 },
   show: { opacity: 1 },
 };
 
+const buttonBaseClasses = 'flex flex-col justify-end items-center';
+
 export default function Name({ name, mood, id }) {
   const swrQuery = useRouter().asPath;
-  const [isUpdating, setIsUpdating] = useState();
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const update = useCallback(
     async (newMood) => {
@@ -33,6 +39,13 @@ export default function Name({ name, mood, id }) {
     [id, swrQuery]
   );
 
+  const handleDelete = useCallback(async () => {
+    setIsDeleting(true);
+    await deleteName(id);
+    setIsDeleting(false);
+    mutate(swrQuery);
+  }, [id, swrQuery]);
+
   return (
     <motion.li
       variants={nameVariants}
@@ -43,7 +56,7 @@ export default function Name({ name, mood, id }) {
         {mood !== 'ok' && (
           <button
             disabled={isUpdating}
-            className="flex flex-col justify-end items-center hover:text-red-500"
+            className={clsx(buttonBaseClasses, 'hover:text-fuchsia-500')}
             onClick={() => update('ok')}
           >
             <RiEmotionNormalLine className="" />
@@ -53,7 +66,7 @@ export default function Name({ name, mood, id }) {
         {mood !== 'like' && (
           <button
             disabled={isUpdating}
-            className="flex flex-col justify-end items-center hover:text-red-500"
+            className={clsx(buttonBaseClasses, 'hover:text-fuchsia-500')}
             onClick={() => update('like')}
           >
             <RiHeartLine className="" />
@@ -63,13 +76,21 @@ export default function Name({ name, mood, id }) {
         {mood !== 'dislike' && (
           <button
             disabled={isUpdating}
-            className="flex flex-col justify-end items-center hover:text-sky-500"
+            className={clsx(buttonBaseClasses, 'hover:text-sky-500')}
             onClick={() => update('dislike')}
           >
             <RiDislikeLine className="" />
             <span className="text-sm">Dislike</span>
           </button>
         )}
+        <button
+          disabled={isDeleting}
+          onClick={handleDelete}
+          className={clsx(buttonBaseClasses, 'hover:text-red-500')}
+        >
+          <RiDeleteBin2Line />
+          <span className="text-sm">Delete</span>
+        </button>
       </div>
     </motion.li>
   );

@@ -14,7 +14,11 @@ function Images({ user_id, swrQuery }) {
       <div className="mt-4 pb-4 md:container mx-4 md:mx-auto">
         {images?.map((image) => (
           // eslint-disable-next-line jsx-a11y/alt-text
-          <Image key={image.thumb_key} {...image} />
+          <Image
+            key={image.thumb_key}
+            {...image}
+            onDelete={() => mutate(swrQuery)}
+          />
         ))}
       </div>
       <ImageUpload onUpload={() => mutate(swrQuery)} />
