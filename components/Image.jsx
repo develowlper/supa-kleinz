@@ -78,7 +78,12 @@ export default function Image({
           }}
         />
         {src && (
-          <NextImage src={src} width={thumb_width} height={thumb_height} />
+          <NextImage
+            src={src}
+            width={thumb_width}
+            height={thumb_height}
+            layout="responsive"
+          />
         )}
         <div
           tabIndex={0}
