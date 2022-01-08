@@ -4,8 +4,7 @@ import nextConnect from 'next-connect';
 import fs from 'fs/promises';
 import { uploadImageToSupabase } from 'data/images';
 import sharp from 'sharp';
-import { encodeImageToBlurhash } from 'lib/encodeImageToBlurhash';
-
+import { getPlaiceholder } from 'plaiceholder';
 const handler = nextConnect();
 handler.use(middleware);
 
@@ -22,11 +21,11 @@ handler.post(async (req, res) => {
     res.statusCode(401).json({ error: 'Not logged in' });
     return;
   }
+
   const fileData = await fs.readFile(path);
+
   const name = filename;
   const thumbName = `thumb_${filename.replace(/\.[^/.]+$/, '')}.webp`;
-
-  const tempmeta = await sharp(fileData).metadata();
 
   const thumbImage = await sharp(fileData)
     .rotate()
@@ -51,13 +50,16 @@ handler.post(async (req, res) => {
     return;
   }
 
+  const { css, blurhash } = await getPlaiceholder(thumbImage);
+
   const dbItem = await supabase.from('image_meta').insert({
     created_by: user.id,
     thumb_width: meta.width,
     thumb_height: meta.height,
     thumb_key: thumbRes.Key.replace('images/', ''),
     download_key: uploadRes.Key.replace('images/', ''),
-    blurhash: await encodeImageToBlurhash(thumbImage),
+    blurhash,
+    plaiceholder_css: css,
   });
 
   res.status(200).json(dbItem?.data);
