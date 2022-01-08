@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.19](https://github.com/develowlper/supa-kleinz/compare/v0.1.18...v0.1.19) (2022-01-08)
+
+
+### Features
+
+* delete names, image improvemnrs ([bac627e](https://github.com/develowlper/supa-kleinz/commit/bac627edb9c04233b5961b9c2b236c8b2b01e3f9))
+
+
+### Bug Fixes
+
+* image size on mobile ([17480d6](https://github.com/develowlper/supa-kleinz/commit/17480d662760658e633aaa9c4ba302582d2b842a))
+* images with wrong rotation ([de4d047](https://github.com/develowlper/supa-kleinz/commit/de4d04778358309511f6ac5ff194025cbff38899))
+* missing error logs ([60ae0db](https://github.com/develowlper/supa-kleinz/commit/60ae0dba4bab4050f83427c5bd14d9aba5e4cd2f))
+
 ### [0.1.18](https://github.com/develowlper/supa-kleinz/compare/v0.1.17...v0.1.18) (2021-12-27)
 
 
