@@ -2,6 +2,7 @@ import Button from 'components/Button';
 import TextField from 'components/TextField';
 import { useFormik } from 'formik';
 import { supabase } from 'lib/supabaseClient';
+import { useRouter } from 'next/router';
 
 import { RiLockUnlockLine } from 'react-icons/ri';
 import { useMutation } from 'react-query';
@@ -27,18 +28,14 @@ export const getStaticProps = async () => {
 };
 
 export default function Signin({ initialValues }) {
-  const { mutate, isLoading, isError, error } = useMutation(
-    async (values) => {
-      const { data, error } = await supabase.auth.signIn(values);
-      if (error) {
-        throw error;
-      }
-      return data;
-    },
-    {
-      onSuccess: () => console.log('SUCCESS'),
+  const router = useRouter();
+  const { mutate, isLoading, isError, error } = useMutation(async (values) => {
+    const { data, error } = await supabase.auth.signIn(values);
+    if (error) {
+      throw error;
     }
-  );
+    return data;
+  });
 
   const formik = useFormik({
     initialValues,

@@ -5,13 +5,11 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import '../styles/globals.css';
 import { useState } from 'react';
 import Authorization from 'components/Authorization';
-import useUpdateAuthCookie from 'hooks/useUpdateAuthCookie';
-import useRedirectOnSignout from 'hooks/useRedirectOnAuthChange';
+import useAuthStateChangeHandling from 'hooks/useAuthStateChangeHandling';
 
 export default function SupaKleinz({ Component, pageProps }) {
   const [queryClient] = useState(() => new QueryClient());
-  useUpdateAuthCookie();
-  useRedirectOnSignout();
+  useAuthStateChangeHandling();
 
   return (
     <QueryClientProvider client={queryClient}>
