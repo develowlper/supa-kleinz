@@ -18,7 +18,7 @@ export default forwardRef(function Button(
       tabIndex="0"
       ref={ref}
       className={clsx(
-        'block shadow-md px-4 py-1 border border-fuchsia-500 bg-white focus:text-fuchsia-500 focus:shadow-hover focus:outline-none focus:shadow-fuchsia-500 hover:text-fuchsia-500 hover:shadow-hover hover:shadow-fuchsia-500',
+        'disabled:grayscale block shadow-md px-4 py-1 border border-fuchsia-500 bg-white focus:text-fuchsia-500 focus:shadow-hover focus:outline-none focus:shadow-fuchsia-500 hover:text-fuchsia-500 hover:shadow-hover hover:shadow-fuchsia-500',
         className
       )}
       {...props}
