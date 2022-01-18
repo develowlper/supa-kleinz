@@ -8,11 +8,17 @@ import { RiLockUnlockLine } from 'react-icons/ri';
 import { useMutation } from 'react-query';
 
 const formFields = [
-  { label: 'Email Adress', key: 'email', type: 'email' },
+  {
+    label: 'Email Adress',
+    key: 'email',
+    type: 'email',
+    autoComplete: 'username',
+  },
   {
     label: 'Password',
     key: 'password',
     type: 'password',
+    autoComplete: 'current-password',
   },
 ];
 
@@ -48,7 +54,7 @@ export default function Signin({ initialValues }) {
         className="w-[400px] p-4 border border-fuchsia-400 shadow-md bg-fuchsia-100 flex flex-col gap-5"
         onSubmit={formik.handleSubmit}
       >
-        {formFields.map(({ label, key, type }) => (
+        {formFields.map(({ label, key, type, autocomplete }) => (
           <div className="grid grid-rows-2 grid-cols-1" key={key}>
             <label htmlFor="email">{label}</label>
             <TextField
@@ -57,6 +63,7 @@ export default function Signin({ initialValues }) {
               type={type}
               onChange={formik.handleChange}
               value={formik.values[key]}
+              autoComplete={autocomplete}
             />
           </div>
         ))}
