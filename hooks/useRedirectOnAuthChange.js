@@ -14,6 +14,8 @@ export default function useRedirectOnAuthChange() {
           );
         }
         if (event === 'SIGNED_IN') {
+          console.log('REPLACE', router.query.returnUrl);
+
           router.replace(router.query.returnUrl || '/');
         }
       }

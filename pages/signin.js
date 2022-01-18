@@ -2,8 +2,7 @@ import Button from 'components/Button';
 import TextField from 'components/TextField';
 import { useFormik } from 'formik';
 import { supabase } from 'lib/supabaseClient';
-import { useRouter } from 'next/router';
-import { useCallback } from 'react';
+
 import { RiLockUnlockLine } from 'react-icons/ri';
 import { useMutation } from 'react-query';
 
@@ -16,8 +15,19 @@ const formFields = [
   },
 ];
 
-export default function Signin() {
-  const { mutate, isLoading, isError, error, reset } = useMutation(
+export const getStaticProps = async () => {
+  return {
+    props: {
+      initialValues: {
+        email: process.env.EMAIL ?? '',
+        password: process.env.PASSWORD ?? '',
+      },
+    },
+  };
+};
+
+export default function Signin({ initialValues }) {
+  const { mutate, isLoading, isError, error } = useMutation(
     async (values) => {
       const { data, error } = await supabase.auth.signIn(values);
       if (error) {
@@ -26,22 +36,14 @@ export default function Signin() {
       return data;
     },
     {
-      onSuccess: () => {},
+      onSuccess: () => console.log('SUCCESS'),
     }
   );
 
   const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: '',
-    },
+    initialValues,
     onSubmit: mutate,
   });
-
-  const handleReset = useCallback(() => {
-    formik.resetForm();
-    reset();
-  }, [formik, reset]);
 
   return (
     <div className="font-mono p-2 flex h-screen justify-center items-center">

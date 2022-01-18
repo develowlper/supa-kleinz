@@ -14,6 +14,7 @@ import NameSheet from 'components/Namesheet';
 import { useState } from 'react';
 
 function Names({ user_id, swrQuery }) {
+  console.log('NAMES');
   const [isCreating, setIsCreating] = useState(false);
 
   const {
