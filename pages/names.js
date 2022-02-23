@@ -12,13 +12,15 @@ import Name from 'components/Name';
 import NameSheet from 'components/Namesheet';
 import { useState } from 'react';
 import ListPage from 'components/ListPage';
+import { motion } from 'framer-motion';
+import listTransition from 'components/animations/listTransition';
 
 function Names({ user_id, swrQuery }) {
   const [isCreating, setIsCreating] = useState(false);
 
-  const {
-    data: { data: names, error },
-  } = useSWR(swrQuery, async () => getNames(user_id));
+  const { data: names, error } = useSWR(swrQuery, async () =>
+    getNames(user_id)
+  );
 
   const formik = useFormik({
     initialValues: {
@@ -62,7 +64,12 @@ function Names({ user_id, swrQuery }) {
         </Button>
         {isCreating && <span>SAVING</span>}
       </form>
-      <div className=" md:flex md:space-x-3 space-y-3 md:space-y-0">
+      <motion.div
+        initial="hidden"
+        animate="show"
+        variants={listTransition}
+        className=" md:flex md:space-x-3 space-y-3 md:space-y-0"
+      >
         {['ok', 'like', 'dislike'].map((key) => {
           return (
             <NameSheet
@@ -82,7 +89,7 @@ function Names({ user_id, swrQuery }) {
             </NameSheet>
           );
         })}
-      </div>
+      </motion.div>
     </ListPage>
   );
 }
@@ -99,7 +106,6 @@ export const getServerSideProps = enforceAuthenticated(async (ctx, user) => {
   const { resolvedUrl } = ctx;
 
   const res = await getNames(user.id);
-
   return {
     props: {
       swrQuery: resolvedUrl,

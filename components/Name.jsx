@@ -12,6 +12,7 @@ import { useCallback, useState } from 'react';
 import { mutate } from 'swr';
 import { deleteName } from 'data/names';
 import clsx from 'clsx';
+import produce from 'immer';
 
 const nameVariants = {
   hidden: { opacity: 0 },
@@ -41,6 +42,15 @@ export default function Name({ name, mood, id }) {
 
   const handleDelete = useCallback(async () => {
     setIsDeleting(true);
+    mutate(
+      swrQuery,
+      (names) =>
+        produce(names, (draft) => {
+          const index = draft.findIndex((n) => n.id === id);
+          draft.splice(index, 1);
+        }),
+      false
+    );
     await deleteName(id);
     setIsDeleting(false);
     mutate(swrQuery);
