@@ -80,7 +80,10 @@ function List({ swrQuery, userId }) {
       <Head>
         <title>{`${id}`}</title>
       </Head>
-      <form className="flex gap-2 items-center" onSubmit={formik.handleSubmit}>
+      <form
+        className="flex gap-2 items-center flex-wrap"
+        onSubmit={formik.handleSubmit}
+      >
         <label htmlFor="label">What could be done?</label>
         <TextField
           type="text"
