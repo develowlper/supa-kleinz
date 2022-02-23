@@ -83,10 +83,6 @@ function List({ swrQuery, userId }) {
     return 'ERROR';
   }
 
-  if (!tasks) {
-    return 'NO DATA';
-  }
-
   return (
     <ListPage>
       <Head>
