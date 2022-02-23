@@ -23,25 +23,30 @@ const buttonBaseClasses = 'flex flex-col justify-end items-center';
 
 export default function Name({ name, mood, id }) {
   const swrQuery = useRouter().asPath;
-  const [isUpdating, setIsUpdating] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
 
   const update = useCallback(
     async (newMood) => {
-      setIsUpdating(true);
+      mutate(
+        swrQuery,
+        (names) =>
+          produce(names, (draft) => {
+            const index = draft.findIndex((n) => n.id === id);
+            draft[index].mood = newMood;
+          }),
+        false
+      );
+
       await supabase
         .from('names')
         .update({ mood: newMood })
         .eq('id', id)
         .single();
-      setIsUpdating(false);
       mutate(swrQuery);
     },
     [id, swrQuery]
   );
 
   const handleDelete = useCallback(async () => {
-    setIsDeleting(true);
     mutate(
       swrQuery,
       (names) =>
@@ -52,7 +57,6 @@ export default function Name({ name, mood, id }) {
       false
     );
     await deleteName(id);
-    setIsDeleting(false);
     mutate(swrQuery);
   }, [id, swrQuery]);
 
@@ -65,7 +69,6 @@ export default function Name({ name, mood, id }) {
       <div className="flex items-center space-x-2">
         {mood !== 'ok' && (
           <button
-            disabled={isUpdating}
             className={clsx(buttonBaseClasses, 'hover:text-fuchsia-500')}
             onClick={() => update('ok')}
           >
@@ -75,7 +78,6 @@ export default function Name({ name, mood, id }) {
         )}
         {mood !== 'like' && (
           <button
-            disabled={isUpdating}
             className={clsx(buttonBaseClasses, 'hover:text-fuchsia-500')}
             onClick={() => update('like')}
           >
@@ -85,7 +87,6 @@ export default function Name({ name, mood, id }) {
         )}
         {mood !== 'dislike' && (
           <button
-            disabled={isUpdating}
             className={clsx(buttonBaseClasses, 'hover:text-sky-500')}
             onClick={() => update('dislike')}
           >
@@ -94,7 +95,6 @@ export default function Name({ name, mood, id }) {
           </button>
         )}
         <button
-          disabled={isDeleting}
           onClick={handleDelete}
           className={clsx(buttonBaseClasses, 'hover:text-red-500')}
         >
