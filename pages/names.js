@@ -16,8 +16,6 @@ import { motion } from 'framer-motion';
 import listTransition from 'components/animations/listTransition';
 
 function Names({ user_id, swrQuery }) {
-  const [isCreating, setIsCreating] = useState(false);
-
   const { data: names, error } = useSWR(swrQuery, async () =>
     getNames(user_id)
   );
@@ -29,11 +27,10 @@ function Names({ user_id, swrQuery }) {
     onSubmit: async (values, { resetForm }) => {
       const name = values.name.trim();
       if (name.length) {
-        setIsCreating(true);
+        mutate(swrQuery, (names) => [name, ...names], false);
         await supabase.from('names').insert({ name, user_id }).single();
         mutate(swrQuery);
         resetForm();
-        setIsCreating(false);
       }
     },
   });
@@ -59,10 +56,7 @@ function Names({ user_id, swrQuery }) {
             value={formik.values.name}
           />
         </div>
-        <Button disabled={isCreating} type="submit">
-          Create
-        </Button>
-        {isCreating && <span>SAVING</span>}
+        <Button type="submit">Create</Button>
       </form>
       <motion.div
         initial="hidden"
