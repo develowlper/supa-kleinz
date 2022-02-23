@@ -11,10 +11,12 @@ import enforceAuthenticated from 'lib/auth/enforceAuthenticated';
 import { getTasks, setIsTaskComplete } from 'data/tasks';
 import useSWR, { SWRConfig, useSWRConfig } from 'swr';
 import { useCallback, useState } from 'react';
+import ListPage from 'components/ListPage';
+import produce from 'immer';
 
 const container = {
   hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.25 } },
+  show: { opacity: 1, transition: { staggerChildren: 0.1 } },
 };
 
 const variants = {
@@ -28,9 +30,7 @@ function List({ swrQuery, userId }) {
   const { mutate } = useSWRConfig();
   const [isUpdating, setIsUpdating] = useState(false);
 
-  const {
-    data: { data: tasks, error },
-  } = useSWR(swrQuery, async function loadTasks() {
+  const { data: tasks, error } = useSWR(swrQuery, async function loadTasks() {
     return getTasks(id, userId);
   });
 
@@ -42,12 +42,20 @@ function List({ swrQuery, userId }) {
   const update = useCallback(
     async ({ id, is_complete }) => {
       setIsUpdating(true);
+      mutate(
+        swrQuery,
+        produce(tasks, (draft) => {
+          const index = draft.findIndex((task) => task.id === id);
+          draft[index].is_complete = is_complete;
+        }),
+        false
+      );
       await setIsTaskComplete(id, is_complete);
       // trigger a revalidation (refetch) to make sure our local data is correct
       mutate(swrQuery);
       setIsUpdating(false);
     },
-    [mutate, swrQuery]
+    [mutate, swrQuery, tasks]
   );
 
   const formik = useFormik({
@@ -75,8 +83,12 @@ function List({ swrQuery, userId }) {
     return 'ERROR';
   }
 
+  if (!tasks) {
+    return 'NO DATA';
+  }
+
   return (
-    <div className="py-3 px-2 flex flex-col gap-3">
+    <ListPage>
       <Head>
         <title>{`${id}`}</title>
       </Head>
@@ -170,7 +182,7 @@ function List({ swrQuery, userId }) {
           </div>
         </div>
       </div>
-    </div>
+    </ListPage>
   );
 }
 
