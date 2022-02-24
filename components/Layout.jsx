@@ -1,3 +1,4 @@
+import useIsPageLoading from 'hooks/useIsPageLoading';
 import Router, { useRouter } from 'next/router';
 import { useState } from 'react';
 import { Navbar, Footer } from './Navigation';
@@ -5,19 +6,7 @@ import Toolbar from './Toolbar';
 
 export default function Layout({ children, ignore = ['/signin'] }) {
   const router = useRouter();
-
-  const [progress, setProgress] = useState(false);
-
-  Router.events.on('routeChangeStart', () => {
-    setProgress(true);
-    //function will fired when route change started
-  });
-
-  Router.events.on('routeChangeComplete', () => {
-    setProgress(false);
-    //function will fired when route change ended
-  });
-
+  const progress = useIsPageLoading();
   if (ignore.some((x) => x === router.pathname)) {
     return children;
   }
