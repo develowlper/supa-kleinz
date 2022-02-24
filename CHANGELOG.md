@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.20](https://github.com/develowlper/supa-kleinz/compare/v0.1.19...v0.1.20) (2022-02-24)
+
+
+### Bug Fixes
+
+* buggy list form on mobile ([907c32a](https://github.com/develowlper/supa-kleinz/commit/907c32acf9e2dcebbc9e4fa43650156560f4e08b))
+* delay on loading ([6d75c6e](https://github.com/develowlper/supa-kleinz/commit/6d75c6e144ffc28a70ba7c8b925150b56030dbe4))
+* image with buggy blur ([63830dc](https://github.com/develowlper/supa-kleinz/commit/63830dc273c8020c7cd5f0e755a4aa5d793bfd36))
+* links active on page load ([f472181](https://github.com/develowlper/supa-kleinz/commit/f4721814e2bead4adb17cde9021d1405508a85b2))
+* missing auto complete ([964bf4b](https://github.com/develowlper/supa-kleinz/commit/964bf4ba45b55e0867ca5a2d0475ac35bfc92bec))
+* missing disabled on button ([9f2078f](https://github.com/develowlper/supa-kleinz/commit/9f2078fd27e55bc2485127b961ab1951929ada26))
+* missing loading bar on page transition ([20a21e2](https://github.com/develowlper/supa-kleinz/commit/20a21e22b4bdca3475f0b97ad3308922483e940e))
+* names page buggy styling ([c22081a](https://github.com/develowlper/supa-kleinz/commit/c22081a70b183b11f9cc593d7e6e90776f5389ce))
+* optimistic updating ([ba2487d](https://github.com/develowlper/supa-kleinz/commit/ba2487dd46570a040972d7eb2e495a57b8174fd7))
+* race condition in signin flow ([3f20c84](https://github.com/develowlper/supa-kleinz/commit/3f20c84d017f1a64076cdcc5ca33a152f0e66be9))
+* remove unused return ([d0ffd68](https://github.com/develowlper/supa-kleinz/commit/d0ffd68cf2a06087beb3340529d2d1043bf2ae9a))
+* removed deleay on name deleting ([5d7afde](https://github.com/develowlper/supa-kleinz/commit/5d7afde8c4ad6220ff4786b94bffd4a5661d3e21))
+* slow name creation ([367f5de](https://github.com/develowlper/supa-kleinz/commit/367f5ded57e21c28e91b88dfb42c7824b441b80e))
+
 ### [0.1.19](https://github.com/develowlper/supa-kleinz/compare/v0.1.18...v0.1.19) (2022-01-08)
 
 
