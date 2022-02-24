@@ -6,18 +6,14 @@ import { supabase } from 'lib/supabaseClient';
 import TextField from 'components/TextField';
 import Button from 'components/Button';
 import Head from 'next/head';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import enforceAuthenticated from 'lib/auth/enforceAuthenticated';
 import { getTasks, setIsTaskComplete } from 'data/tasks';
 import useSWR, { SWRConfig, useSWRConfig } from 'swr';
 import { useCallback, useState } from 'react';
 import ListPage from 'components/ListPage';
 import produce from 'immer';
-
-const container = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.1 } },
-};
+import listTransition from 'components/animations/listTransition';
 
 const variants = {
   hidden: { opacity: 0 },
@@ -112,33 +108,38 @@ function List({ swrQuery, userId }) {
             <h2 className="text-lg px-4 py-2">Open</h2>
             <motion.ul
               key={`${id}-complete`}
-              variants={container}
+              variants={listTransition}
               initial="hidden"
               animate="show"
               className="space-y-2"
             >
               {tasks.length < 1 && <p>No items</p>}
-              {tasks
-                .filter((x) => !x.is_complete)
-                .map(({ task, id: taskId, is_complete }) => {
-                  return (
-                    <motion.li
-                      variants={variants}
-                      className="border px-4 py-2 bg-white shadow-sm flex items-center gap-2"
-                      key={taskId}
-                    >
-                      <input
-                        disabled={isUpdating}
-                        className="form-checkbox h-4 w-4 text-sky-500"
-                        id={taskId}
-                        type="checkbox"
-                        checked={is_complete}
-                        onChange={handleChecked}
-                      />
-                      <label htmlFor={taskId}>{task}</label>
-                    </motion.li>
-                  );
-                })}
+              <AnimatePresence>
+                {tasks
+                  .filter((x) => !x.is_complete)
+                  .map(({ task, id: taskId, is_complete }) => {
+                    return (
+                      <motion.li
+                        variants={variants}
+                        className="border px-4 py-2 bg-white shadow-sm flex items-center gap-2"
+                        key={taskId}
+                        initial="hidden"
+                        animate="show"
+                        exit="hidden"
+                      >
+                        <input
+                          disabled={isUpdating}
+                          className="form-checkbox h-4 w-4 text-sky-500"
+                          id={taskId}
+                          type="checkbox"
+                          checked={is_complete}
+                          onChange={handleChecked}
+                        />
+                        <label htmlFor={taskId}>{task}</label>
+                      </motion.li>
+                    );
+                  })}
+              </AnimatePresence>
             </motion.ul>
           </div>
         </div>
@@ -149,31 +150,36 @@ function List({ swrQuery, userId }) {
               key={id}
               animate="show"
               initial="hidden"
-              variants={container}
+              variants={listTransition}
               className="space-y-2"
             >
               {tasks.length < 1 && <p>No items</p>}
-              {tasks
-                .filter((x) => x.is_complete)
-                .map(({ task, id: taskId, is_complete }) => {
-                  return (
-                    <motion.li
-                      variants={variants}
-                      className="border px-4 py-2 bg-white shadow-sm flex items-center gap-2"
-                      key={taskId}
-                    >
-                      <input
-                        className="form-checkbox h-4 w-4 text-sky-500"
-                        disabled={update.isLoading}
-                        id={taskId}
-                        type="checkbox"
-                        checked={is_complete}
-                        onChange={handleChecked}
-                      />
-                      <label htmlFor={taskId}>{task}</label>
-                    </motion.li>
-                  );
-                })}
+              <AnimatePresence>
+                {tasks
+                  .filter((x) => x.is_complete)
+                  .map(({ task, id: taskId, is_complete }) => {
+                    return (
+                      <motion.li
+                        variants={variants}
+                        className="border px-4 py-2 bg-white shadow-sm flex items-center gap-2"
+                        key={taskId}
+                        initial="hidden"
+                        animate="show"
+                        exit="hidden"
+                      >
+                        <input
+                          className="form-checkbox h-4 w-4 text-sky-500"
+                          disabled={update.isLoading}
+                          id={taskId}
+                          type="checkbox"
+                          checked={is_complete}
+                          onChange={handleChecked}
+                        />
+                        <label htmlFor={taskId}>{task}</label>
+                      </motion.li>
+                    );
+                  })}
+              </AnimatePresence>
             </motion.ul>
           </div>
         </div>
